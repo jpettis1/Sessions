@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import CalendarContainer from "./Calendar.jsx";
-
+import Calendar from "./Calendar.jsx";
+import { Box } from "@mui/material";
 const AthleteHomepage = () => {
-  return <CalendarContainer />;
+  return <Calendar />;
 };
 
 export default AthleteHomepage;

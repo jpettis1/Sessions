@@ -12,14 +12,15 @@
   "author": "Jeff Pettis",
   "license": "ISC",
   "dependencies": {
-    "@fullcalendar/daygrid": "^5.11.3",
-    "@fullcalendar/interaction": "^5.11.3",
-    "@fullcalendar/react": "^5.11.2",
-    "moment": "^2.29.4",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.11",
+    "@mui/x-date-pickers": "^5.0.5",
+    "date-fns": "^2.29.3",
     "react": "^18.2.0",
-    "react-datetime": "^3.1.1",
-    "react-dom": "^18.2.0",
-    "react-modal": "^3.16.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
