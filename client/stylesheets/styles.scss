@@ -1,19 +1,19 @@
+//Font sizes
+$fourteen-px: 0.875rem;
+$fifteen-px: 0.9375rem;
+$sixteen-px: 1rem;
+$seventeen-px: 1.0625rem;
+$eighteen-px: 1.125rem;
+$nineteen-px: 1.1875rem;
+$twenty-px: 1.25rem;
+$twentyone-px: 1.3125rem;
+
 * {
   margin: 0;
   padding: 0;
-}
-// .css-bkrceb-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
-//   background-color: #ee964b !important;
-// }
-
-// h2 header text
-.header-text {
-  text-align: center;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-  color: #ee964b;
+  box-sizing: border-box;
 }
 
-// .css-u0soqy-MuiPickerStaticWrapper-root {
-//   box-shadow: 3px 2px 10px 5px #888888 !important;
-// }
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+  background-color: #f95738 !important;
+}
