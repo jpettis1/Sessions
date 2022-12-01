@@ -15,8 +15,7 @@ import {
 import { set } from "date-fns";
 
 export default function FormDialog(props) {
-  const { open, handleClickOpen, handleClose, modifiedDate, dropDownValue } =
-    props;
+  const { open, modifiedDate, workoutValue, changeModalState } = props;
 
   // state for form fields
   const [workoutDetails, setWorkoutDetails] = useState("");
@@ -49,14 +48,19 @@ export default function FormDialog(props) {
         setEventName(val);
         break;
       default:
-        console.log("default");
         setEventDetails(val);
     }
   };
 
   return (
     <div>
-      <Dialog fullWidth open={open} onClose={handleClose}>
+      <Dialog
+        fullWidth
+        open={open}
+        onClose={() => {
+          changeModalState({ type: "changeModalVisibility" });
+        }}
+      >
         <DialogTitle>Add Session/{modifiedDate}</DialogTitle>
         <DialogContent>
           <Box
@@ -73,7 +77,7 @@ export default function FormDialog(props) {
                 Select Workout Type
               </InputLabel>
               <NativeSelect
-                defaultValue={dropDownValue}
+                defaultValue={workoutValue}
                 inputProps={{
                   name: "age",
                   id: "uncontrolled-native",
@@ -191,10 +195,21 @@ export default function FormDialog(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="error" onClick={handleClose}>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              changeModalState({ type: "changeModalVisibility" });
+            }}
+          >
             Delete
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              changeModalState({ type: "changeModalVisibility" });
+            }}
+          >
             Save
           </Button>
         </DialogActions>

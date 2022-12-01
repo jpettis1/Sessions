@@ -1,24 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import UpcomingEventsView from "./UpcomingEvents.jsx";
 import Calendar from "./Calendar.jsx";
 import WorkoutDetailsTile from "./WorkoutDetailsTile.jsx";
 import UpcomingCoachingSessions from "./UpcomingCoachingSessions.jsx";
+import CustomUpcomingView from "./customcomponents/CustomBoxComponent.jsx";
 import FormDialog from "./NewWorkoutFormDialog.jsx";
 import PieChart from "./PieChart.jsx";
 import BarChart from "./BarChart.jsx";
 import ErrorBoundary from "./errorboundaries/error.jsx";
 import { Box } from "@mui/material";
 
+// reducer for handling modal state changes
+const modalStateReducer = (state, action) => {
+  switch (action.type) {
+    case "changeModalVisibility":
+      return { open: !state.open, workoutValue: state.workoutValue };
+    case "setWorkoutType":
+      return { open: state.open, workoutValue: action.payload };
+    default:
+      return state;
+  }
+};
+
 const AthleteHomepage = () => {
   // state holding date value for calendar component
   const [value, setValue] = useState(new Date());
   // state holding modified date value for workout and modal components
   const [modifiedDate, setModifiedDate] = useState("");
-  // state holding MainFormDialog toggle open/close
-  const [open, setOpen] = React.useState(false);
-  // state holding default value of DropDownMenuWorkoutSelect
-  const [dropDownValue, setDropDownValue] = useState("Bike");
-
+  // state holding toggle and initial workout values for modal
+  const [initialModalState, changeModalState] = useReducer(modalStateReducer, {
+    open: false,
+    workoutValue: "Bike",
+  });
+  // state to hold Upcoming Events table columns
+  const [upcomingEventsColumnVals, setUpcomingEventColumnVals] = useState([
+    { id: "event", label: "Event", minWidth: 170 },
+    { id: "eventDetails", label: "Event Details", minWidth: 100 },
+  ]);
+  // state to hold Coaching Session table columns
+  const [coachingSessionColumnVals, setCoachingSessionColumnVals] = useState(
+    { id: "coach", label: "Coach", minWidth: 170 },
+    { id: "meetingDetails", label: "Meeting Details", minWidth: 100 }
+  );
+  // state holding classname for Events table
+  const [eventsTableClass, setEventsTableClass] = useState("EventsContainer");
+  // state holding classname for Session table
+  const [sessionTableClass, setSessionTableClass] = useState(
+    "UpcomingCoachingSessions"
+  );
   // handle modified date change on date value change
   useEffect(() => {
     setModifiedDate(value.toString().slice(0, 15));
@@ -27,18 +56,9 @@ const AthleteHomepage = () => {
   const handleDateChange = (newValue) => {
     setValue(newValue);
   };
-  // handle open MainFormDialog modal
-  const handleClickOpen = (workoutType) => {
-    setOpen(true);
-    if (workoutType) {
-      setDropDownValue(workoutType);
-    }
-  };
-  // handle close MainFormDialog modal
-  const handleClose = () => {
-    setOpen(false);
-  };
 
+  // get values from initialModalState to pass into FormDialog
+  const { open, workoutValue } = initialModalState;
   return (
     <Box
       sx={{
@@ -53,19 +73,15 @@ const AthleteHomepage = () => {
         <Calendar
           handleDateChange={handleDateChange}
           value={value}
-          handleClickOpen={handleClickOpen}
+          changeModalState={changeModalState}
         />
-        <WorkoutDetailsTile
-          modifiedDate={modifiedDate}
-          handleClickOpen={handleClickOpen}
-        />
+        <WorkoutDetailsTile modifiedDate={modifiedDate} />
         <UpcomingCoachingSessions />
         <FormDialog
           open={open}
-          handleClickOpen={handleClickOpen}
-          handleClose={handleClose}
           modifiedDate={modifiedDate}
-          dropDownValue={dropDownValue}
+          dropDownValue={workoutValue}
+          changeModalState={changeModalState}
         />
         <PieChart />
         <BarChart />

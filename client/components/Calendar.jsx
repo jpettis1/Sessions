@@ -22,7 +22,7 @@ import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 
 const Calendar = (props) => {
-  const { handleDateChange, value, handleClickOpen } = props;
+  const { handleDateChange, value, changeModalState } = props;
   // dummy data - need to populate dynamically
   const [dates, setDates] = useState([
     "Sat Nov 19 2022",
@@ -126,7 +126,8 @@ const Calendar = (props) => {
                   top: "48%",
                 }}
                 onClick={() => {
-                  handleClickOpen("Run");
+                  changeModalState({ type: "changeModalVisibility" });
+                  changeModalState({ type: "setWorkoutType", payload: "Run" });
                 }}
               >
                 <DirectionsRunIcon />
@@ -138,7 +139,8 @@ const Calendar = (props) => {
                   top: "58%",
                 }}
                 onClick={() => {
-                  handleClickOpen("Bike");
+                  changeModalState({ type: "changeModalVisibility" });
+                  changeModalState({ type: "setWorkoutType", payload: "Bike" });
                 }}
               >
                 <DirectionsBikeIcon />
@@ -150,7 +152,8 @@ const Calendar = (props) => {
                   top: "68%",
                 }}
                 onClick={() => {
-                  handleClickOpen("Swim");
+                  changeModalState({ type: "changeModalVisibility" });
+                  changeModalState({ type: "setWorkoutType", payload: "Swim" });
                 }}
               >
                 <PoolIcon />
@@ -162,7 +165,11 @@ const Calendar = (props) => {
                   top: "78%",
                 }}
                 onClick={() => {
-                  handleClickOpen("Weights");
+                  changeModalState({ type: "changeModalVisibility" });
+                  changeModalState({
+                    type: "setWorkoutType",
+                    payload: "Weights",
+                  });
                 }}
               >
                 <FitnessCenterIcon />
