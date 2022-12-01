@@ -1,9 +1,6 @@
 import React, { useState, useRef } from "react";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { PickersDay } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
-import StyledCustomToolBar from "./customcomponents/ToolBar.jsx";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   Box,
   Badge,
@@ -23,15 +20,20 @@ import CheckIcon from "@mui/icons-material/Check";
 import PoolIcon from "@mui/icons-material/Pool";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
-import { flexbox } from "@mui/system";
 
-const Calendar = ({ handleDateChange, value }) => {
-  const [highlightedDays, setHighlightedDays] = useState([1, 2, 15]);
+const Calendar = (props) => {
+  const { handleDateChange, value, handleClickOpen } = props;
+  // dummy data - need to populate dynamically
+  const [dates, setDates] = useState([
+    "Sat Nov 19 2022",
+    "Wed Nov 23 2022",
+    "Thu Nov 24 2022",
+  ]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [changeIcon, setChangeIcon] = useState(false);
 
   const handleClick = () => {
-    // const stateVal = isOpen === false ? true : false;
     if (isOpen === true) {
       setIsOpen(false);
       setChangeIcon(false);
@@ -49,135 +51,141 @@ const Calendar = ({ handleDateChange, value }) => {
 
   return (
     <Paper
+      className="Calendar"
       elevation={5}
       onClick={handleClick}
       sx={{
         position: "relative",
-        ".css-1hbyad5-MuiTypography-root": { display: "none" },
-        ".css-j88s13-MuiPickersToolbar-root-MuiDatePickerToolbar-root": {
-          padding: 0,
-          // display: "flex",
-          // justifyContent: "center",
+        display: "flex",
+        justifyContent: "Center",
+        "& .MuiPickersStaticWrapper-staticWrapperRoot": {
+          width: "100%",
         },
-        ".css-hq2kpw-MuiGrid-root-MuiPickersToolbar-content": {
-          justifyContent: "center",
-          padding: "1rem",
-          backgroundColor: "#F95738",
+        "& .MuiPickersDatePickerRoot-toolbar ": {
+          alignItems: "center",
+          backgroundColor: "#08B2E3",
         },
-        ".css-195y93z-MuiButtonBase-root-MuiPickersDay-root.Mui-selected ": {
-          backgroundColor: "#F95738",
+        "& .MuiTypography-subtitle1": {
+          color: "#fff",
         },
-        ".css-j88s13-MuiPickersToolbar-root-MuiDatePickerToolbar-root .MuiPickersToolbar-penIconButton":
-          { display: "none" },
-        ".css-hlj6pa-MuiDialogActions-root": { display: "none" },
+        "& .MuiPickersToolbarText-toolbarTxt": {
+          color: "#fff",
+        },
+        "& .MuiPickersDay-daySelected": {
+          backgroundColor: "#08B2E3",
+        },
+        "& .MuiPickersBasePicker-pickerView": {
+          maxWidth: "100%",
+        },
+        "& .MuiPaper-root .MuiPickersCalendarHeader-switchHeader": {
+          display: "flex",
+          alignItems: "center",
+        },
+        " & .MuiPickersCalendarHeader-transitionContainer": {
+          overflow: "visible",
+        },
       }}
     >
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <StaticDatePicker
-          ToolbarComponent={() => (
-            <StyledCustomToolBar value={value.toString()} />
-          )}
-          displayStaticWrapperAs="mobile"
-          openTo="day"
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <DatePicker
+          autoOk
           orientation="portrait"
+          variant="static"
+          openTo="date"
           value={value}
-          onChange={(newValue) => {
-            handleDateChange(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-          renderDay={(day, _value, DayComponentProps) => {
-            const isSelected =
-              !DayComponentProps.outsideCurrentMonth &&
-              highlightedDays.indexOf(day.getDate()) > 0;
+          onChange={(e) => handleDateChange(e.toDateString())}
+          renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => {
+            const date = day.toDateString();
+            // console.log(date);
 
+            const isSelected = isInCurrentMonth && dates.includes(date);
+
+            // You can also use our internal <Day /> component
             return (
               <Badge
                 key={day.toString()}
-                overlap="circular"
                 badgeContent={
                   isSelected ? <CheckIcon color="success" /> : undefined
                 }
+                // color='secondary'
+                overlap="circular"
               >
-                <PickersDay {...DayComponentProps} />
+                {dayComponent}
               </Badge>
             );
           }}
         />
-        <ButtonGroup orientation="vertical">
-          {isOpen && (
-            <Box>
-              <Grow in={true} timeout={1300}>
-                <CustomIconButton
-                  sx={{
-                    top: "28%",
-                  }}
-                >
-                  <DirectionsRunIcon />
-                </CustomIconButton>
-              </Grow>
-              <Grow in={true} timeout={1300}>
-                <CustomIconButton
-                  sx={{
-                    top: "38%",
-                  }}
-                >
-                  <DirectionsBikeIcon />
-                </CustomIconButton>
-              </Grow>
-              <Grow in={true} timeout={1300}>
-                <CustomIconButton
-                  sx={{
-                    top: "48%",
-                  }}
-                >
-                  <PoolIcon />
-                </CustomIconButton>
-              </Grow>
-              <Grow in={true} timeout={1300}>
-                <CustomIconButton
-                  sx={{
-                    top: "58%",
-                  }}
-                >
-                  <FitnessCenterIcon />
-                </CustomIconButton>
-              </Grow>
-              <Grow in={true} timeout={1300}>
-                <CustomIconButton
-                  sx={{
-                    top: "68%",
-                  }}
-                >
-                  <EditIcon />
-                </CustomIconButton>
-              </Grow>
-              <Grow in={true} timeout={1300}>
-                <CustomIconButton
-                  sx={{
-                    top: "78%",
-                  }}
-                >
-                  <DeleteIcon />
-                </CustomIconButton>
-              </Grow>
-            </Box>
-          )}
-          <Fab
-            onMouseEnter={handleChangeIcon}
-            onMouseLeave={handleChangeIcon}
-            sx={{
-              position: "absolute",
-              right: "1%",
-              top: "88%",
-              backgroundColor: "#F95738",
-            }}
-            size="small"
-            onClick={handleClick}
-          >
-            {!changeIcon ? <AddIcon /> : <EditIcon />}
-          </Fab>
-        </ButtonGroup>
-      </LocalizationProvider>
+      </MuiPickersUtilsProvider>
+
+      <ButtonGroup orientation="vertical">
+        {isOpen && (
+          <Box>
+            <Grow in={true} timeout={1300}>
+              <CustomIconButton
+                sx={{
+                  top: "48%",
+                }}
+                onClick={() => {
+                  handleClickOpen("Run");
+                }}
+              >
+                <DirectionsRunIcon />
+              </CustomIconButton>
+            </Grow>
+            <Grow in={true} timeout={1300}>
+              <CustomIconButton
+                sx={{
+                  top: "58%",
+                }}
+                onClick={() => {
+                  handleClickOpen("Bike");
+                }}
+              >
+                <DirectionsBikeIcon />
+              </CustomIconButton>
+            </Grow>
+            <Grow in={true} timeout={1300}>
+              <CustomIconButton
+                sx={{
+                  top: "68%",
+                }}
+                onClick={() => {
+                  handleClickOpen("Swim");
+                }}
+              >
+                <PoolIcon />
+              </CustomIconButton>
+            </Grow>
+            <Grow in={true} timeout={1300}>
+              <CustomIconButton
+                sx={{
+                  top: "78%",
+                }}
+                onClick={() => {
+                  handleClickOpen("Weights");
+                }}
+              >
+                <FitnessCenterIcon />
+              </CustomIconButton>
+            </Grow>
+          </Box>
+        )}
+        <Fab
+          onMouseEnter={handleChangeIcon}
+          onMouseLeave={handleChangeIcon}
+          sx={{
+            position: "absolute",
+            right: "2%",
+            top: "88%",
+            backgroundColor: "#08B2E3",
+          }}
+          size="small"
+          onClick={handleClick}
+        >
+          {!changeIcon ? <AddIcon sx={{ color: "#fff" }} /> : <EditIcon />}
+        </Fab>
+      </ButtonGroup>
+      {/* </LocalizationProvider> */}
     </Paper>
   );
 };

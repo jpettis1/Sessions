@@ -4,6 +4,6 @@ import { IconButton } from "@mui/material";
 
 export const CustomIconButton = styled(IconButton)({
   position: "absolute",
-  right: "1%",
+  right: "2%",
   color: "#2A2A2A",
 });

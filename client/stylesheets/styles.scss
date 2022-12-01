@@ -14,6 +14,90 @@ $twentyone-px: 1.3125rem;
   box-sizing: border-box;
 }
 
-.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
-  background-color: #f95738 !important;
+body {
+  background-color: #eeeeee;
+}
+
+h1 {
+  text-align: center;
+  color: #414141;
+  margin-bottom: 1.5rem;
+}
+
+// use for doing initial sketches - https://www.sketch.com/
+.GridContainer {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 0.3fr 0.3fr;
+  grid-template-areas:
+    "events calendar calendar workout workout upcoming"
+    "events monthly monthly yearly yearly upcoming";
+  gap: $sixteen-px;
+  .EventsContainer {
+    grid-area: events;
+  }
+
+  .Calendar {
+    grid-area: calendar;
+  }
+
+  .WorkoutDetails {
+    grid-area: workout;
+  }
+
+  .PieChart {
+    h3 {
+      text-align: center;
+    }
+
+    grid-area: monthly;
+  }
+
+  .BarChart {
+    grid-area: yearly;
+  }
+
+  .UpcomingCoachingSessions {
+    grid-area: upcoming;
+  }
+}
+
+.bottom-nav {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+}
+
+// MEDIA QUERIES FOR RESPONSIVE MAIN GRID
+@media only screen and (max-width: 1500px) {
+  .GridContainer {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "calendar workout"
+      "events upcoming"
+      "monthly yearly";
+  }
+  .bottom-nav {
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+  }
+}
+
+@media only screen and (max-width: 870px) {
+  .GridContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-areas:
+      "calendar"
+      "workout"
+      "upcoming"
+      "events"
+      "monthly"
+      "yearly";
+  }
+
+  .bottom-nav {
+    grid-template-columns: repeat(1, 1fr);
+    justify-items: center;
+  }
 }

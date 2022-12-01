@@ -1,8 +1,8 @@
 import React from "react";
 import {
   Box,
-  Paper,
   IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -13,76 +13,95 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
+import { textAlign } from "@mui/system";
+
 // format and populate columns and rows of table
+// create column data to use as map when populating rows
 const columns = [
-  { id: "workout", label: "Workout", minWidth: 170 },
-  { id: "workoutDetails", label: "Workout Details", minWidth: 100 },
+  { id: "coach", label: "Coach", minWidth: 170 },
+  { id: "meetingDetails", label: "Meeting Details", minWidth: 100 },
 ];
 
-function createData(workout, workoutDetails) {
-  return { workout, workoutDetails };
+// function to create row data
+function createData(coach, meetingDetails) {
+  return { coach, meetingDetails };
 }
 
+// row data
 const rows = [
-  createData("Bike", "4x4 over-unders"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
+  createData("Matt Freeman", "Discuss intervals"),
+  createData("Matt Freeman", "SD Event prep"),
 ];
 
-const WorkoutDetailsTile = (props) => {
-  const { modifiedDate, handleClickOpen } = props;
+// upcoming coaching sessions component
+const UpcomingCoachingSessions = () => {
+  // state holding page indice
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(4);
+  // state holding number of rows per page
+  const [rowsPerPage, setRowsPerPage] = React.useState(11);
+  // state holding boolean value for whether or not handle resize was called initially
+  const [handleInitialResize, setHandleInitialResize] = React.useState(false);
 
+  // listen for window resize, adjusting number of rows per page at 1200px
+  const handleResize = () => {
+    if (window.innerWidth < 1600) {
+      setRowsPerPage(7);
+    }
+    if (window.innerWidth < 1500) {
+      setRowsPerPage(4);
+    }
+    if (rowsPerPage !== 11 && window.innerWidth > 1600) {
+      setRowsPerPage(11);
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    if (!handleInitialResize) {
+      handleResize();
+      setHandleInitialResize(true);
+    }
+  }, []);
+
+  // change to new page display when user presses left or right arrow buttons
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
   return (
     <Paper
-      className="WorkoutDetails"
       elevation={5}
       sx={{
         padding: "10px",
       }}
+      className="UpcomingCoachingSessions"
     >
       <Paper
         elevation={5}
         sx={{
+          textAlign: "center",
           backgroundColor: "#08B2E3",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
           padding: "10px",
           color: "#fff",
         }}
       >
-        <h3>Selected Workout / {modifiedDate}</h3>
-        <Box>
-          <IconButton sx={{ color: "white" }} onClick={handleClickOpen}>
-            <AddIcon />
-          </IconButton>
-          <IconButton sx={{ color: "white" }}>
-            <EditIcon />
-          </IconButton>
-        </Box>
+        <h2>Coaching Sessions</h2>
       </Paper>
       <Paper sx={{ width: "100%" }}>
-        <TableContainer sx={{ maxHeight: "100%" }}>
-          <Table stickyHeader aria-label="sticky table">
+        <TableContainer
+          sx={{
+            maxHeight: "100%",
+            overFlowX: "hidden",
+          }}
+        >
+          <Table
+            sx={{ overFlowX: "hidden" }}
+            stickyHeader
+            aria-label="sticky table"
+          >
             <TableHead>
               <TableRow>
-                <TableCell>Workout</TableCell>
-                <TableCell>Workout Details</TableCell>
+                <TableCell>Coach</TableCell>
+                <TableCell>Meeting Details</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -118,18 +137,17 @@ const WorkoutDetailsTile = (props) => {
             "& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon ": {
               display: "none",
             },
+            overflowX: "hidden",
           }}
-          // rowsPerPageOptions={[10, 25, 100]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
-          // onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
     </Paper>
   );
 };
 
-export default WorkoutDetailsTile;
+export default UpcomingCoachingSessions;
