@@ -8,7 +8,7 @@ module.exports = {
     filename: "bundle.js",
     path: path.join(__dirname, "client"),
   },
-  mode: process.env.NODE_ENV,
+  mode: "development",
   devServer: {
     static: {
       directory: path.join(__dirname, "./client"),
@@ -16,7 +16,7 @@ module.exports = {
     },
     port: 8080,
     proxy: {
-      "/api": "http://localhost:3000",
+      "/workouts": "http://localhost:3000",
     },
   },
   module: {

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, createContext } from "react";
+import axios from "axios";
 import UpcomingEventsView from "./UpcomingEvents.jsx";
 import Calendar from "./Calendar.jsx";
 import WorkoutDetailsTile from "./WorkoutDetailsTile.jsx";
@@ -10,8 +11,10 @@ import BarChart from "./BarChart.jsx";
 import ErrorBoundary from "./errorboundaries/error.jsx";
 import { Box } from "@mui/material";
 
+// create context to give child props access to values
+export const AthleteHomePageContext = createContext(null);
 // reducer for handling modal state changes
-const modalStateReducer = (state, action) => {
+function modalStateReducer(state, action) {
   switch (action.type) {
     case "changeModalVisibility":
       return { open: !state.open, workoutValue: state.workoutValue };
@@ -20,7 +23,7 @@ const modalStateReducer = (state, action) => {
     default:
       return state;
   }
-};
+}
 
 const AthleteHomepage = () => {
   // state holding date value for calendar component
@@ -32,61 +35,108 @@ const AthleteHomepage = () => {
     open: false,
     workoutValue: "Bike",
   });
-  // state to hold Upcoming Events table columns
-  const [upcomingEventsColumnVals, setUpcomingEventColumnVals] = useState([
-    { id: "event", label: "Event", minWidth: 170 },
-    { id: "eventDetails", label: "Event Details", minWidth: 100 },
-  ]);
-  // state to hold Coaching Session table columns
-  const [coachingSessionColumnVals, setCoachingSessionColumnVals] = useState(
-    { id: "coach", label: "Coach", minWidth: 170 },
-    { id: "meetingDetails", label: "Meeting Details", minWidth: 100 }
-  );
-  // state holding classname for Events table
-  const [eventsTableClass, setEventsTableClass] = useState("EventsContainer");
-  // state holding classname for Session table
-  const [sessionTableClass, setSessionTableClass] = useState(
-    "UpcomingCoachingSessions"
-  );
+  // state for form fields
+  const [workoutDetails, setWorkoutDetails] = useState("");
+  const [athleteNotes, setAthleteNotes] = useState("");
+  const [workoutComplete, setWorkoutComplete] = useState(false);
+  // state for selected workout day
+  const [selectedWorkoutDay, setSelectedWorkoutDay] = useState([]);
+
+  // handle text input change
+  const handleTextInputChange = (val, label) => {
+    switch (label) {
+      case "Enter workout details":
+        setWorkoutDetails(val);
+        break;
+      case "Enter coach's notes":
+        setCoachNotes(val);
+        break;
+      case "Enter athlete notes":
+        setAthleteNotes(val);
+        break;
+      default:
+        setWorkoutComplete((prevState) => !prevState);
+    }
+  };
+
+  //reset form
+  const resetForm = () => {
+    // close modal
+    changeModalState({ type: "changeModalVisibility" });
+    // reset form fields
+    setWorkoutDetails("");
+    setAthleteNotes("");
+    setWorkoutComplete(false);
+  };
+
+  // Handle form submission
+  const handleSubmission = async (e) => {
+    // prevent default refresh after form submission
+    e.preventDefault();
+    // declare obj to hold submission values sent to db, passing in required fields
+    const data = {
+      workoutValue: initialModalState.workoutValue,
+      workoutDetails: workoutDetails,
+      workoutComplete: workoutComplete,
+      athleteNotes: athleteNotes,
+    };
+    // reset input form
+    resetForm();
+    // make a put request to the db to submit new workout details
+    const res = await axios.post("/workouts", data);
+    // set current selected workout day
+    setSelectedWorkoutDay([res[0]]);
+  };
+
   // handle modified date change on date value change
   useEffect(() => {
     setModifiedDate(value.toString().slice(0, 15));
   }, [value]);
   // handle date change on click within calendar component
-  const handleDateChange = (newValue) => {
+  function handleDateChange(newValue) {
     setValue(newValue);
-  };
+  }
 
-  // get values from initialModalState to pass into FormDialog
+  // deconstruct values from initialModalState to pass into context provider
   const { open, workoutValue } = initialModalState;
   return (
-    <Box
-      sx={{
-        minHeight: "calc(100vh - 230px)",
-        marginBottom: "1.5rem",
-        padding: "0 10px",
+    // Provide child components with parent state
+    <AthleteHomePageContext.Provider
+      value={{
+        value,
+        modifiedDate,
+        handleDateChange,
+        changeModalState,
+        open,
+        workoutValue,
+        workoutDetails,
+        athleteNotes,
+        handleTextInputChange,
+        resetForm,
+        handleSubmission,
+        workoutComplete,
+        selectedWorkoutDay,
       }}
     >
-      <h1>Training Schedule</h1>
-      <Box className="GridContainer">
-        <UpcomingEventsView />
-        <Calendar
-          handleDateChange={handleDateChange}
-          value={value}
-          changeModalState={changeModalState}
-        />
-        <WorkoutDetailsTile modifiedDate={modifiedDate} />
-        <UpcomingCoachingSessions />
-        <FormDialog
-          open={open}
-          modifiedDate={modifiedDate}
-          dropDownValue={workoutValue}
-          changeModalState={changeModalState}
-        />
-        <PieChart />
-        <BarChart />
+      <Box
+        sx={{
+          minHeight: "calc(100vh - 230px)",
+          marginBottom: "1.5rem",
+          padding: "0 10px",
+        }}
+      >
+        <h1>Training Schedule</h1>
+        <Box className="GridContainer">
+          <UpcomingEventsView />
+          <Calendar />
+          <WorkoutDetailsTile />
+          <UpcomingCoachingSessions />
+          <FormDialog />
+          <PieChart />
+          <BarChart />
+        </Box>
       </Box>
-    </Box>
+    </AthleteHomePageContext.Provider>
   );
 };
 

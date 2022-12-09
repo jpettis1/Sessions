@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { AthleteHomePageContext } from "./AthleteHomepage.jsx";
 import {
   Box,
   Paper,
@@ -19,30 +20,31 @@ const columns = [
   { id: "workoutDetails", label: "Workout Details", minWidth: 100 },
 ];
 
-function createData(workout, workoutDetails) {
-  return { workout, workoutDetails };
-}
+// function createData(workout, workoutDetails) {
+//   return { workout, workoutDetails };
+// }
 
-const rows = [
-  createData("Bike", "4x4 over-unders"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-  createData("Swim", "1000 meters"),
-];
+// const rows = [
+//   createData("Bike", "4x4 over-unders"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+//   createData("Swim", "1000 meters"),
+// ];
 
-const WorkoutDetailsTile = (props) => {
-  const { modifiedDate, handleClickOpen } = props;
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(4);
-
+const WorkoutDetailsTile = () => {
+  const { modifiedDate, changeModalState, selectedWorkoutDay } = useContext(
+    AthleteHomePageContext
+  );
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(4);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -68,7 +70,12 @@ const WorkoutDetailsTile = (props) => {
       >
         <h3>Selected Workout / {modifiedDate}</h3>
         <Box>
-          <IconButton sx={{ color: "white" }} onClick={handleClickOpen}>
+          <IconButton
+            sx={{ color: "white" }}
+            onClick={() => {
+              changeModalState({ type: "changeModalVisibility" });
+            }}
+          >
             <AddIcon />
           </IconButton>
           <IconButton sx={{ color: "white" }}>
@@ -86,7 +93,7 @@ const WorkoutDetailsTile = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {selectedWorkoutDay
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
@@ -121,7 +128,7 @@ const WorkoutDetailsTile = (props) => {
           }}
           // rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={selectedWorkoutDay.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

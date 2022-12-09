@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useContext } from "react";
+import { AthleteHomePageContext } from "./AthleteHomepage.jsx";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -21,8 +22,10 @@ import PoolIcon from "@mui/icons-material/Pool";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 
-const Calendar = (props) => {
-  const { handleDateChange, value, changeModalState } = props;
+const Calendar = () => {
+  const { value, handleDateChange, changeModalState } = useContext(
+    AthleteHomePageContext
+  );
   // dummy data - need to populate dynamically
   const [dates, setDates] = useState([
     "Sat Nov 19 2022",
@@ -126,7 +129,9 @@ const Calendar = (props) => {
                   top: "48%",
                 }}
                 onClick={() => {
-                  changeModalState({ type: "changeModalVisibility" });
+                  changeModalState({
+                    type: "changeModalVisibility",
+                  });
                   changeModalState({ type: "setWorkoutType", payload: "Run" });
                 }}
               >
