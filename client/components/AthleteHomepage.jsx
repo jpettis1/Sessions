@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
+import ResponsiveAppBar from "./global/AppBar.jsx";
 import axios from "axios";
 import UpcomingEventsView from "./UpcomingEvents.jsx";
 import Calendar from "./Calendar.jsx";
@@ -8,13 +9,14 @@ import CustomUpcomingView from "./customcomponents/CustomBoxComponent.jsx";
 import FormDialog from "./NewWorkoutFormDialog.jsx";
 import PieChart from "./PieChart.jsx";
 import BarChart from "./BarChart.jsx";
+import FooterNavContent from "./global/FooterNavContent.jsx";
 import ErrorBoundary from "./errorboundaries/error.jsx";
 import { Box } from "@mui/material";
 
 // create context to give child props access to values
 export const AthleteHomePageContext = createContext(null);
 // reducer for handling modal state changes
-function modalStateReducer(state, action) {
+const modalStateReducer = (state, action) => {
   switch (action.type) {
     case "changeModalVisibility":
       return { open: !state.open, workoutValue: state.workoutValue };
@@ -23,7 +25,21 @@ function modalStateReducer(state, action) {
     default:
       return state;
   }
-}
+};
+
+// workouts reducer handling data for workouts display
+const workoutsReducer = (state, action) => {
+  switch (action.type) {
+    case "add workout":
+      const newState = state.map((el) => {
+        return Object.assign({}, el);
+      });
+      newState.push(action.payload);
+      return newState;
+    default:
+      return state;
+  }
+};
 
 const AthleteHomepage = () => {
   // state holding date value for calendar component
@@ -40,8 +56,8 @@ const AthleteHomepage = () => {
   const [athleteNotes, setAthleteNotes] = useState("");
   const [workoutComplete, setWorkoutComplete] = useState(false);
   // state for selected workout day
-  const [selectedWorkoutDay, setSelectedWorkoutDay] = useState([]);
-
+  // const [selectedWorkoutDay, setSelectedWorkoutDay] = useState([]);
+  const [workouts, addWorkouts] = useReducer(workoutsReducer, []);
   // handle text input change
   const handleTextInputChange = (val, label) => {
     switch (label) {
@@ -84,8 +100,8 @@ const AthleteHomepage = () => {
     resetForm();
     // make a put request to the db to submit new workout details
     const res = await axios.post("/workouts", data);
-    // set current selected workout day
-    setSelectedWorkoutDay([res[0]]);
+    // add new workout to state obj
+    addWorkouts({ type: "add workout", payload: res.data });
   };
 
   // handle modified date change on date value change
@@ -115,25 +131,28 @@ const AthleteHomepage = () => {
         resetForm,
         handleSubmission,
         workoutComplete,
-        selectedWorkoutDay,
+        workouts,
       }}
     >
-      <Box
-        sx={{
-          minHeight: "calc(100vh - 230px)",
-          marginBottom: "1.5rem",
-          padding: "0 10px",
-        }}
-      >
-        <h1>Training Schedule</h1>
-        <Box className="GridContainer">
-          <UpcomingEventsView />
-          <Calendar />
-          <WorkoutDetailsTile />
-          <UpcomingCoachingSessions />
-          <FormDialog />
-          <PieChart />
-          <BarChart />
+      <Box>
+        <ResponsiveAppBar />
+        <Box
+          sx={{
+            minHeight: "calc(100vh - 210px)",
+            marginBottom: "1.5rem",
+            padding: "0 10px",
+          }}
+        >
+          <h1>Training Schedule</h1>
+          <Box className="GridContainer">
+            <UpcomingEventsView />
+            <Calendar />
+            <WorkoutDetailsTile />
+            <UpcomingCoachingSessions />
+            <FormDialog />
+            <PieChart />
+            <BarChart />
+          </Box>
         </Box>
       </Box>
     </AthleteHomePageContext.Provider>

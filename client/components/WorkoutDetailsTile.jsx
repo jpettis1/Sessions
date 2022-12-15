@@ -20,27 +20,8 @@ const columns = [
   { id: "workoutDetails", label: "Workout Details", minWidth: 100 },
 ];
 
-// function createData(workout, workoutDetails) {
-//   return { workout, workoutDetails };
-// }
-
-// const rows = [
-//   createData("Bike", "4x4 over-unders"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-//   createData("Swim", "1000 meters"),
-// ];
-
 const WorkoutDetailsTile = () => {
-  const { modifiedDate, changeModalState, selectedWorkoutDay } = useContext(
+  const { modifiedDate, changeModalState, workouts } = useContext(
     AthleteHomePageContext
   );
   const [page, setPage] = useState(0);
@@ -93,7 +74,7 @@ const WorkoutDetailsTile = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {selectedWorkoutDay
+              {workouts
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
@@ -101,7 +82,7 @@ const WorkoutDetailsTile = () => {
                       hover
                       role="checkbox"
                       tabIndex={-1}
-                      key={row.code}
+                      // key={row.code}
                     >
                       {columns.map((column) => {
                         const value = row[column.id];
@@ -128,7 +109,7 @@ const WorkoutDetailsTile = () => {
           }}
           // rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={selectedWorkoutDay.length}
+          count={workouts.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

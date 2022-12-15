@@ -57,6 +57,12 @@ export default function FormDialog() {
                     name: "age",
                     id: "uncontrolled-native",
                   }}
+                  onChange={(e) =>
+                    changeModalState({
+                      type: "setWorkoutType",
+                      payload: e.target.value,
+                    })
+                  }
                 >
                   <option value={"Bike"}>Bike</option>
                   <option value={"Run"}>Run</option>

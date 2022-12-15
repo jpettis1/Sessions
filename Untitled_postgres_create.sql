@@ -1,7 +1,10 @@
 CREATE TABLE public.users (
 	"_id" serial NOT NULL,
+	"google_identity" varchar,
 	"email" varchar NOT NULL,
-	"firstname" varchar NOT NULL,
+	"firstname" varchar,
+	"hash" varchar,
+	"salt" varchar,
 	CONSTRAINT "users_pk" PRIMARY KEY ("_id")
 ) WITH (
   OIDS=FALSE

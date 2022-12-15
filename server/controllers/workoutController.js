@@ -8,6 +8,8 @@ workoutController.addWorkout = async (req, res, next) => {
   try {
     const { workoutValue, workoutDetails, workoutComplete, athleteNotes } =
       req.body;
+      
+    // hardcoded for testing - MAKE DYNAMIC!
     const id = 1;
     const values = [
       workoutValue,
@@ -16,12 +18,14 @@ workoutController.addWorkout = async (req, res, next) => {
       athleteNotes,
       workoutComplete,
     ];
+  
     const queryStr =
       "INSERT INTO workouts (workout_type, workout_details, user_id, athlete_notes, workout_status) VALUES ($1, $2, $3, $4, $5) RETURNING workout_type, workout_details, athlete_notes, workout_status;";
 
+    // query db to insert new workout values
     const data = await db.query(queryStr, values);
 
-    // destructure returned data from db and input into return object
+    // destructure returned data from db and input into return workouts obj
     const { workout_type, workout_details, athlete_notes, workout_status } =
       data.rows[0];
     res.locals.workouts = {

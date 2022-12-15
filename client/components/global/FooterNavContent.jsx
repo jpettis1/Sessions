@@ -10,7 +10,7 @@ const FooterNavContent = () => {
         showLabels
         sx={{
           backgroundColor: "#757575",
-          height: "150px",
+          height: "100px",
         }}
       >
         <CustomFooterButton label="Contact Us" />

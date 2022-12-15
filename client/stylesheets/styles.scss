@@ -24,6 +24,47 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
+// LOGIN IN PAGE
+.login-header-div {
+  border-radius: 4px 4px 0 0;
+  height: 4rem;
+  padding: 10px;
+}
+
+h5 {
+  font-family: roboto;
+  color: #414141;
+}
+
+.login-header {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  font-family: roboto;
+}
+
+.forgot-password {
+  text-decoration: none;
+  font-family: roboto;
+  font-size: $fourteen-px;
+  color: #035acc;
+  display: block;
+}
+
+.sign-up-link {
+  font-family: roboto;
+  font-size: $fourteen-px;
+  a {
+    text-decoration: none;
+    color: #035acc;
+  }
+}
+
+hr {
+  margin-bottom: 1rem;
+}
+
+// ATHLETE HOME PAGE
 // use for doing initial sketches - https://www.sketch.com/
 .GridContainer {
   display: grid;

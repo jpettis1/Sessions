@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,9 +12,9 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["Find A Coach", "Nutrition", "Blogs"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const ResponsiveAppBar = () => {
@@ -31,7 +32,10 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (logout) => {
+    if (logout) {
+      const res = axios.get("/logout");
+    }
     setAnchorElUser(null);
   };
 
@@ -42,7 +46,9 @@ const ResponsiveAppBar = () => {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <FitnessCenterIcon
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -58,7 +64,7 @@ const ResponsiveAppBar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Sessions
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -97,7 +103,9 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <FitnessCenterIcon
+            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+          />
           <Typography
             variant="h5"
             noWrap
@@ -114,14 +122,14 @@ const ResponsiveAppBar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Sessions
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, color: "#fff", display: "block" }}
               >
                 {page}
               </Button>
@@ -150,11 +158,20 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {settings.map((setting) =>
+                setting === "Logout" ? (
+                  <MenuItem
+                    key={setting}
+                    onClick={() => handleCloseUserMenu(true)}
+                  >
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ) : (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                )
+              )}
             </Menu>
           </Box>
         </Toolbar>
