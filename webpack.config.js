@@ -1,4 +1,3 @@
-const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -7,6 +6,9 @@ module.exports = {
   output: {
     filename: "bundle.js",
     path: path.join(__dirname, "client"),
+  },
+  optimization: {
+    usedExports: true,
   },
   mode: process.env.NODE_ENV,
   devServer: {
@@ -19,8 +21,7 @@ module.exports = {
     hot: true,
     proxy: {
       "/workouts": "http://localhost:3000",
-      "/auth/google": "http://localhost:3000",
-      "/auth/google/success": "http://localhost:3000",
+      "/login/*": "http://localhost:3000",
       "/logout": "http://localhost:3000",
     },
   },

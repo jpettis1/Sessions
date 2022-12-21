@@ -11,7 +11,6 @@ const registerUser = async (req, res, next) => {
     const queryStr =
       "INSERT INTO users (email, hash, salt) VALUES($1, $2, $3) RETURNING _id, email";
     const newUser = await db.query(queryStr, values);
-    console.log(newUser);
     return next();
   } catch (err) {
     return next(err);

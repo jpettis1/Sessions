@@ -3,8 +3,42 @@ import { useNavigate } from "react-router-dom";
 import { Box, Paper, Button, TextField, Typography } from "@mui/material";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import axios from "axios";
 
 const LoginPage = () => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLocalLogin = async () => {
+    try {
+      const response = await axios.post("/login", {
+        username: userName,
+        password: password,
+      });
+      if (response.data.user) {
+        console.log("user data", response.data.user);
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.log("user does not exist", err);
+    }
+  };
+
+  const handleLoginState = (val, label) => {
+    switch (label) {
+      case "Username":
+        setUserName(val);
+        break;
+      default:
+        setPassword(val);
+    }
+  };
+
+  const navigateToSignUp = () => {
+    navigate("/signup");
+  };
+
   return (
     <Box>
       <Box
@@ -64,24 +98,26 @@ const LoginPage = () => {
             <TextField
               autoFocus
               margin="dense"
-              id="name"
-              // label="Enter workout details"
+              // id="username"
+              label="Enter username"
               fullWidth
-              // variant="standard"
               sx={{ marginBottom: "1rem" }}
               required={true}
+              onChange={(e) => handleLoginState(e.target.value, "Username")}
+              value={userName}
             />
             <TextField
-              autoFocus
               margin="dense"
-              id="name"
-              // label="Enter workout details"
+              // id="password"
+              label="Enter password"
               fullWidth
-              // variant="standard"
               sx={{ marginBottom: "1rem" }}
               required={true}
+              onChange={(e) => handleLoginState(e.target.value)}
+              value={password}
+              type="password"
             />
-            <a className="forgot-password" href="#">
+            <a className="forgot-password" href="#" onClick={navigateToSignUp}>
               Forgot password?
             </a>
           </Box>
@@ -94,6 +130,7 @@ const LoginPage = () => {
                 backgroundColor: "#EE6352",
               }}
               variant="contained"
+              onClick={handleLocalLogin}
             >
               Sign in
             </Button>
@@ -101,14 +138,17 @@ const LoginPage = () => {
             <Button
               sx={{ height: "4rem", width: "100%" }}
               variant="contained"
-              href="auth/google"
+              href="/login/auth/google"
             >
               Log in with Google
             </Button>
           </Box>
         </Paper>
         <p className="sign-up-link">
-          New to Sessions? <a href="#">Sign Up</a>
+          New to Sessions?{" "}
+          <a href="#" onClick={navigateToSignUp}>
+            Sign Up
+          </a>
         </p>
       </Box>
     </Box>

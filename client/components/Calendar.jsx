@@ -1,7 +1,9 @@
 import React, { useState, useContext } from "react";
 import { AthleteHomePageContext } from "./AthleteHomepage.jsx";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
+// import DateFnsUtils from "@date-io/date-fns";
 import {
   Box,
   Badge,
@@ -26,12 +28,6 @@ const Calendar = () => {
   const { value, handleDateChange, changeModalState } = useContext(
     AthleteHomePageContext
   );
-  // dummy data - need to populate dynamically
-  const [dates, setDates] = useState([
-    "Sat Nov 19 2022",
-    "Wed Nov 23 2022",
-    "Thu Nov 24 2022",
-  ]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [changeIcon, setChangeIcon] = useState(false);
@@ -61,65 +57,47 @@ const Calendar = () => {
         position: "relative",
         display: "flex",
         justifyContent: "Center",
-        "& .MuiPickersStaticWrapper-staticWrapperRoot": {
+        ".css-u0soqy-MuiPickerStaticWrapper-root ": {
           width: "100%",
         },
-        "& .MuiPickersDatePickerRoot-toolbar ": {
-          alignItems: "center",
+        "& .css-1eurbeq-MuiPickersToolbar-root-MuiDatePickerToolbar-root": {
           backgroundColor: "#08B2E3",
-        },
-        "& .MuiTypography-subtitle1": {
           color: "#fff",
         },
-        "& .MuiPickersToolbarText-toolbarTxt": {
-          color: "#fff",
+
+        "& .css-1hbyad5-MuiTypography-root": {
+          display: "none",
         },
-        "& .MuiPickersDay-daySelected": {
+        "& .css-z3au5x-MuiButtonBase-root-MuiIconButton-root-MuiPickersToolbar-penIconButton":
+          {
+            display: "none",
+          },
+        "& .css-3jvy96-MuiTypography-root-MuiDatePickerToolbar-title": {
+          width: "100%",
+        },
+        "& .css-1tkx1wf-MuiSvgIcon-root-MuiPickersCalendarHeader-switchViewIcon":
+          {
+            display: "none",
+          },
+        "& .css-hlj6pa-MuiDialogActions-root": {
+          display: "none",
+        },
+        "& .css-195y93z-MuiButtonBase-root-MuiPickersDay-root.Mui-selected": {
           backgroundColor: "#08B2E3",
-        },
-        "& .MuiPickersBasePicker-pickerView": {
-          maxWidth: "100%",
-        },
-        "& .MuiPaper-root .MuiPickersCalendarHeader-switchHeader": {
-          display: "flex",
-          alignItems: "center",
-        },
-        " & .MuiPickersCalendarHeader-transitionContainer": {
-          overflow: "visible",
         },
       }}
     >
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <DatePicker
-          autoOk
-          orientation="portrait"
-          variant="static"
-          openTo="date"
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <StaticDatePicker
+          // orientation="landscape"
+          openTo="day"
           value={value}
-          onChange={(e) => handleDateChange(e.toDateString())}
-          renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => {
-            const date = day.toDateString();
-            // console.log(date);
-
-            const isSelected = isInCurrentMonth && dates.includes(date);
-
-            // You can also use our internal <Day /> component
-            return (
-              <Badge
-                key={day.toString()}
-                badgeContent={
-                  isSelected ? <CheckIcon color="success" /> : undefined
-                }
-                // color='secondary'
-                overlap="circular"
-              >
-                {dayComponent}
-              </Badge>
-            );
+          onChange={(e) => {
+            handleDateChange(e.toDateString());
           }}
+          renderInput={(params) => <TextField {...params} />}
         />
-      </MuiPickersUtilsProvider>
-
+      </LocalizationProvider>
       <ButtonGroup orientation="vertical">
         {isOpen && (
           <Box>
@@ -144,7 +122,9 @@ const Calendar = () => {
                   top: "58%",
                 }}
                 onClick={() => {
-                  changeModalState({ type: "changeModalVisibility" });
+                  changeModalState({
+                    type: "changeModalVisibility",
+                  });
                   changeModalState({ type: "setWorkoutType", payload: "Bike" });
                 }}
               >
@@ -157,7 +137,9 @@ const Calendar = () => {
                   top: "68%",
                 }}
                 onClick={() => {
-                  changeModalState({ type: "changeModalVisibility" });
+                  changeModalState({
+                    type: "changeModalVisibility",
+                  });
                   changeModalState({ type: "setWorkoutType", payload: "Swim" });
                 }}
               >
@@ -170,7 +152,9 @@ const Calendar = () => {
                   top: "78%",
                 }}
                 onClick={() => {
-                  changeModalState({ type: "changeModalVisibility" });
+                  changeModalState({
+                    type: "changeModalVisibility",
+                  });
                   changeModalState({
                     type: "setWorkoutType",
                     payload: "Weights",

@@ -37,7 +37,11 @@ export default function FormDialog() {
       <Dialog fullWidth open={open} onClose={resetForm}>
         <DialogTitle>Add Session/{modifiedDate}</DialogTitle>
         <DialogContent>
-          <form onSubmit={handleSubmission}>
+          <form
+            onSubmit={(e) => {
+              handleSubmission(e);
+            }}
+          >
             <Box
               sx={{
                 marginBottom: "1rem",
@@ -112,7 +116,13 @@ export default function FormDialog() {
               label="Workout Complete"
             />
             <DialogActions>
-              <Button variant="contained" color="error" onClick={resetForm}>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={(e) => {
+                  handleSubmission(e, true);
+                }}
+              >
                 Delete
               </Button>
               <Button type="submit" variant="contained">

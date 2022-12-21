@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../App.jsx";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,9 +20,10 @@ const pages = ["Find A Coach", "Nutrition", "Blogs"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const ResponsiveAppBar = () => {
+  const { deleteUser, user } = useContext(AppContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
+  const navigate = useNavigate();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -32,13 +35,15 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = (logout) => {
+  const handleCloseUserMenu = async (logout) => {
     if (logout) {
-      const res = axios.get("/logout");
+      const res = await axios.get("/logout");
+      deleteUser();
+      return navigate("/");
     }
     setAnchorElUser(null);
   };
-
+  // ADD LINKS BELOW FOR REACT ROUTER DOM
   return (
     <AppBar
       sx={{ backgroundColor: "#EE6352", marginBottom: "1.5rem" }}
@@ -139,7 +144,7 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={user.picture} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -167,7 +172,10 @@ const ResponsiveAppBar = () => {
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ) : (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    key={setting}
+                    onClick={() => handleCloseUserMenu(false)}
+                  >
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 )

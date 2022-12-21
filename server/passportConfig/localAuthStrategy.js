@@ -7,7 +7,7 @@ const verifyCallback = async (username, password, done) => {
   try {
     const userInformation = [username];
     const queryStr =
-      "SELECT _id, email, firstname password FROM users WHERE email = $1";
+      "SELECT _id, email, hash, salt FROM users WHERE email = $1";
     const currUser = await db.query(queryStr, userInformation);
     if (!currUser.rows.length) return done(null, false);
     const isValid = validPassword(

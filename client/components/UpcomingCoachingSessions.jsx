@@ -84,7 +84,7 @@ const UpcomingCoachingSessions = () => {
           color: "#fff",
         }}
       >
-        <h2>Coaching Sessions</h2>
+        <h3>Coaching Sessions</h3>
       </Paper>
       <Paper sx={{ width: "100%" }}>
         <TableContainer

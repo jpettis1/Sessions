@@ -14,16 +14,22 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
+import { el } from "date-fns/locale";
 // format and populate columns and rows of table
 const columns = [
-  { id: "workout", label: "Workout", minWidth: 170 },
+  { id: "workoutValue", label: "Workout", minWidth: 170 },
   { id: "workoutDetails", label: "Workout Details", minWidth: 100 },
 ];
 
 const WorkoutDetailsTile = () => {
-  const { modifiedDate, changeModalState, workouts } = useContext(
-    AthleteHomePageContext
-  );
+  const {
+    value,
+    modifiedDate,
+    changeModalState,
+    workouts,
+    editWorkoutDetails,
+  } = useContext(AthleteHomePageContext);
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(4);
   const handleChangePage = (event, newPage) => {
@@ -49,12 +55,14 @@ const WorkoutDetailsTile = () => {
           color: "#fff",
         }}
       >
-        <h3>Selected Workout / {modifiedDate}</h3>
+        <h3>Selected Workout / {value.toString().slice(0, 15)}</h3>
         <Box>
           <IconButton
             sx={{ color: "white" }}
             onClick={() => {
-              changeModalState({ type: "changeModalVisibility" });
+              changeModalState({
+                type: "changeModalVisibility",
+              });
             }}
           >
             <AddIcon />
@@ -82,7 +90,8 @@ const WorkoutDetailsTile = () => {
                       hover
                       role="checkbox"
                       tabIndex={-1}
-                      // key={row.code}
+                      id={row.workoutId}
+                      onClick={(e) => editWorkoutDetails(e.currentTarget.id)}
                     >
                       {columns.map((column) => {
                         const value = row[column.id];
@@ -107,13 +116,11 @@ const WorkoutDetailsTile = () => {
               display: "none",
             },
           }}
-          // rowsPerPageOptions={[10, 25, 100]}
           component="div"
           count={workouts.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
-          // onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
     </Paper>

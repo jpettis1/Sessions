@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import useRows from "../hooks/useRows";
 import {
   Box,
   IconButton,
@@ -49,39 +50,13 @@ const rows = [
 const UpcomingEventsView = () => {
   // state holding page indice
   const [page, setPage] = useState(0);
-
-  // state holding number of rows per page
-  const [rowsPerPage, setRowsPerPage] = useState(4);
-
-  // state holding boolean value for whether or not handle resize was called initially
-  const [handleInitialResize, setHandleInitialResize] = useState(false);
-
-  // listen for window resize, adjusting number of rows per page at 1200px
-  const handleResize = () => {
-    if (window.innerWidth < 1600) {
-      setRowsPerPage(7);
-    }
-    if (window.innerWidth < 1500) {
-      setRowsPerPage(4);
-    }
-    if (rowsPerPage !== 11 && window.innerWidth > 1600) {
-      setRowsPerPage(11);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    // conditional, if initial resize has not occured upon load, handleResize and reassign initial resize to true
-    if (!handleInitialResize) {
-      handleResize();
-      setHandleInitialResize(true);
-    }
-  }, []);
+  const { rowsPerPage } = useRows(4);
 
   // change to new page display when user presses left or right arrow buttons
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
   return (
     <Paper
       elevation={5}
@@ -99,7 +74,7 @@ const UpcomingEventsView = () => {
           color: "#fff",
         }}
       >
-        <h2>Upcoming Events</h2>
+        <h3>Upcoming Events</h3>
       </Paper>
 
       <Paper sx={{ width: "100%" }}>

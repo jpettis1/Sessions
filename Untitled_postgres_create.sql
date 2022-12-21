@@ -3,6 +3,8 @@ CREATE TABLE public.users (
 	"google_identity" varchar,
 	"email" varchar NOT NULL,
 	"firstname" varchar,
+	"lastname" varchar,
+	"picture" varchar,
 	"hash" varchar,
 	"salt" varchar,
 	CONSTRAINT "users_pk" PRIMARY KEY ("_id")
@@ -19,6 +21,7 @@ CREATE TABLE public.workouts (
 	"user_id" serial NOT NULL,
 	"athlete_notes" varchar NOT NULL,
 	"workout_status" boolean NOT NULL,
+	"workout_date" varchar NOT NULL,
 	CONSTRAINT "workouts_pk" PRIMARY KEY ("workouts_id")
 ) WITH (
   OIDS=FALSE
