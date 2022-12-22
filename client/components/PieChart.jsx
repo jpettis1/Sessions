@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AthleteHomePageContext } from "./AthleteHomepage.jsx";
-import Paper from "@mui/material/Paper";
+import { Paper, Box } from "@mui/material";
 import {
   ArgumentAxis,
   ValueAxis,
@@ -19,7 +19,7 @@ const PieChart = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: "10px",
+        padding: "15px",
         //   alignItems: "center",
       }}
     >
@@ -32,6 +32,14 @@ const PieChart = () => {
           color="red"
         />
       </Chart>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <h4 className="pie-chart-key">
+          Complete: <div className="workouts-completed"></div>
+        </h4>
+        <h4 className="pie-chart-key">
+          Incomplete: <div className="workouts-incomplete"></div>
+        </h4>
+      </Box>
     </Paper>
   );
 };

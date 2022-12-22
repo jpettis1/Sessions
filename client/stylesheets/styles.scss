@@ -82,6 +82,29 @@ hr {
 .css-bkrceb-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
   background-color: #08b2e3 !important;
 }
+.css-195y93z-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+  background-color: #08b2e3 !important;
+}
+
+// PIE CHART COMPONENT
+.workouts-completed {
+  background-color: #9ccc65;
+  width: 30px;
+  height: 12px;
+}
+
+.workouts-incomplete {
+  background-color: #fe7043;
+  width: 30px;
+  height: 12px;
+}
+.pie-chart-key {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
 // ATHELETE HOMEPAGE GRID
 .GridContainer {
   display: grid;

@@ -20,7 +20,7 @@ const BarChart = () => (
     elevation={5}
     sx={{
       textAlign: "center",
-      padding: "10px",
+      padding: "15px",
     }}
   >
     <h3>Yearly Summary</h3>

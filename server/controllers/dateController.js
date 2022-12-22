@@ -32,4 +32,26 @@ dateController.formatDate = (req, res, next) => {
   }
 };
 
+dateController.getDateRanges = (req, res, next) => {
+  try {
+    const startDate = req.query.date.slice(0, 8) + "01";
+    let endMonth = Number(req.query.date.slice(5, 7));
+    if (endMonth === 12) {
+      endMonth = "01";
+    } else if (endMonth < 10) {
+      endMonth += 1;
+      endMonth = "0" + endMonth;
+    } else {
+      endMonth = endMonth + 1;
+    }
+    const endDate = req.query.date.slice(0, 5) + endMonth + "01";
+    req.query.dateRange = { startDate, endDate };
+    return next();
+  } catch (err) {
+    return next({
+      log: `dateController.formatDate: ${err}`,
+      message: { err: "Failed to format date" },
+    });
+  }
+};
 module.exports = dateController;

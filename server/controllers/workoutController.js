@@ -1,5 +1,22 @@
 const db = require("../models/sessionModels");
 
+// function for generating monthly workout summary
+const generateWorkoutSummaryStatus = (data) => {
+  let complete = 0;
+  let incomplete = 0;
+  for (const workout of data) {
+    if (workout.workout_status === true) {
+      complete += 1;
+    } else {
+      incomplete += 1;
+    }
+  }
+  return [
+    { argument: 1, value: 0 },
+    { argument: 2, value: incomplete },
+    { argument: 3, value: complete },
+  ];
+};
 // declare const set to object literal - hold methods on the workoutController object
 const workoutController = {};
 
@@ -35,20 +52,19 @@ workoutController.getWorkouts = async (req, res, next) => {
 
 workoutController.getSummary = async (req, res, next) => {
   try {
-    const values = [req.user._id, req.query.date];
+    const { startDate, endDate } = req.query.dateRange;
+    const values = [startDate, endDate];
 
     const queryStr =
-      "SELECT workout_status FROM workouts WHERE user_id = $1 AND workout_date = $2";
+      "SELECT workout_status FROM workouts WHERE workout_date BETWEEN $1 AND $2";
 
-    // query db to insert new workout values
+    // query db to get completed workouts and non-completed workouts
     const data = await db.query(queryStr, values);
-    // const populatedWorkouts = data.rows.map((el) => {
-    //   return {
-    //     workoutStatus: el.workout_status,
-    //   };
-    // });
-    console.log(data.rows);
-    // res.locals.workouts = populatedWorkouts;
+    console.log("summary data ->", data.rows);
+
+    // compile workout summary data
+    res.locals.workoutStatus = generateWorkoutSummaryStatus(data.rows);
+
     return next();
   } catch (err) {
     return next({

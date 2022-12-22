@@ -55,11 +55,8 @@ const AthleteHomepage = () => {
     [],
     new Date()
   );
-  const { workoutStatus, setWorkoutStatus } = useWorkoutStatus([
-    { argument: 1, value: 0 },
-    { argument: 2, value: 20 },
-    { argument: 3, value: 80 },
-  ]);
+  // workoutStatus state for monthly summary and fetch request to back end to retrieve initial data
+  const { workoutStatus, setWorkoutStatus } = useWorkoutStatus();
   // deconstruct values from initialModalState to pass into context provider
   const { open, workoutValue, method } = initialModalState;
 
@@ -162,6 +159,10 @@ const AthleteHomepage = () => {
       // add new workout to state obj
       addWorkouts({ type: "add workout", payload: res.data });
     }
+    // fetch summary data
+    const response = await axios.get(`workouts/summary?date=${new Date()}`);
+    // set state here
+    setWorkoutStatus(response.data);
   };
 
   // handle date change on click within calendar component
