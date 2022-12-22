@@ -42,18 +42,16 @@ const useDateAndWorkout = (workoutData, date) => {
   // state holding modified date value for workout and modal components
   const [value, setValue] = useState(date);
   const [workouts, addWorkouts] = useReducer(workoutsReducer, workoutData);
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     const getWorkoutData = async () => {
       try {
         // fetch user data to autheticate user
-        const response = await axios.get(
-          `workouts?date=${value.slice(0, 15)}`,
-          {
-            signal: signal,
-          }
-        );
+        const response = await axios.get(`workouts?date=${value}`, {
+          signal: signal,
+        });
         if (response.data) {
           console.log("response data", response.data);
           addWorkouts({

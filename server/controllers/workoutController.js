@@ -6,7 +6,6 @@ const workoutController = {};
 // declare a method get workout to query workouts for specific user
 workoutController.getWorkouts = async (req, res, next) => {
   try {
-    // hardcoded for testing - MAKE DYNAMIC!
     const values = [req.user._id, req.query.date];
 
     const queryStr =
@@ -29,6 +28,31 @@ workoutController.getWorkouts = async (req, res, next) => {
   } catch (err) {
     return next({
       log: `workoutController.getWorkout: ${err}`,
+      message: { err: "Failed to add workout" },
+    });
+  }
+};
+
+workoutController.getSummary = async (req, res, next) => {
+  try {
+    const values = [req.user._id, req.query.date];
+
+    const queryStr =
+      "SELECT workout_status FROM workouts WHERE user_id = $1 AND workout_date = $2";
+
+    // query db to insert new workout values
+    const data = await db.query(queryStr, values);
+    // const populatedWorkouts = data.rows.map((el) => {
+    //   return {
+    //     workoutStatus: el.workout_status,
+    //   };
+    // });
+    console.log(data.rows);
+    // res.locals.workouts = populatedWorkouts;
+    return next();
+  } catch (err) {
+    return next({
+      log: `workoutController.getSummary: ${err}`,
       message: { err: "Failed to add workout" },
     });
   }
@@ -139,7 +163,6 @@ workoutController.deleteWorkout = async (req, res, next) => {
     // query db to insert new workout values
     const data = await db.query(queryStr, values);
     console.log(data.rows);
-
     res.locals.workoutId = data.rows[0].workouts_id.toString();
 
     return next();

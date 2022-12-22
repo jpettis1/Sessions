@@ -3,6 +3,7 @@ import ResponsiveAppBar from "./global/AppBar.jsx";
 import axios from "axios";
 import UpcomingEventsView from "./UpcomingEvents.jsx";
 import useDateAndWorkout from "../hooks/useDateAndWorkout";
+import useWorkoutStatus from "../hooks/useWorkoutStatus.js";
 import Calendar from "./Calendar.jsx";
 import WorkoutDetailsTile from "./WorkoutDetailsTile.jsx";
 import UpcomingCoachingSessions from "./UpcomingCoachingSessions.jsx";
@@ -36,6 +37,7 @@ const modalStateReducer = (state, action) => {
 };
 
 const AthleteHomepage = () => {
+  // STATE
   // change modal state, workout value, and form methods
   const [initialModalState, changeModalState] = useReducer(modalStateReducer, {
     open: false,
@@ -48,12 +50,16 @@ const AthleteHomepage = () => {
   const [workoutDetails, setWorkoutDetails] = useState("");
   const [athleteNotes, setAthleteNotes] = useState("");
   const [workoutComplete, setWorkoutComplete] = useState(false);
-  // custom hook for handling
+  // custom hook for handling workout and date status and fetching of data
   const { value, setValue, workouts, addWorkouts } = useDateAndWorkout(
     [],
-    new Date().toString()
+    new Date()
   );
-
+  const { workoutStatus, setWorkoutStatus } = useWorkoutStatus([
+    { argument: 1, value: 0 },
+    { argument: 2, value: 20 },
+    { argument: 3, value: 80 },
+  ]);
   // deconstruct values from initialModalState to pass into context provider
   const { open, workoutValue, method } = initialModalState;
 
@@ -133,7 +139,7 @@ const AthleteHomepage = () => {
       workoutDetails: workoutDetails,
       workoutStatus: workoutComplete,
       athleteNotes: athleteNotes,
-      modifiedDate: value.toString().slice(0, 15),
+      modifiedDate: value,
     };
     if (deleteRequest) {
       const res = await axios.delete(`/workouts?id=${workoutId}`);
@@ -180,6 +186,7 @@ const AthleteHomepage = () => {
         handleSubmission,
         workoutComplete,
         workouts,
+        workoutStatus,
         editWorkoutDetails,
       }}
     >

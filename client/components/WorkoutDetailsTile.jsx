@@ -128,3 +128,5 @@ const WorkoutDetailsTile = () => {
 };
 
 export default WorkoutDetailsTile;
+
+// .toDateString()

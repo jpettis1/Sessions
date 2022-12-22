@@ -93,7 +93,7 @@ const Calendar = () => {
           openTo="day"
           value={value}
           onChange={(e) => {
-            handleDateChange(e.toDateString());
+            handleDateChange(e);
           }}
           renderInput={(params) => <TextField {...params} />}
         />

@@ -136,11 +136,21 @@ const LoginPage = () => {
             </Button>
             <hr />
             <Button
-              sx={{ height: "4rem", width: "100%" }}
+              sx={{
+                height: "4rem",
+                width: "100%",
+                position: "relative",
+                backgroundColor: "#4285F4",
+              }}
               variant="contained"
               href="/login/auth/google"
             >
-              Log in with Google
+              <img
+                className="googlebtn"
+                src="assets/images/googlebtn.png"
+                alt=""
+              />
+              <p className="google-sign-in-text">Sign in with Google</p>
             </Button>
           </Box>
         </Paper>
