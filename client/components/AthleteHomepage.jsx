@@ -46,6 +46,8 @@ const AthleteHomepage = () => {
   });
   // workout id for querying update requests
   const [workoutId, setWorkoutId] = useState("");
+  // boolean indicating  workout status data avaliability
+  const [workoutStatusAvaliable, setWorkoutStatusAvaliable] = useState(true);
   // state for form fields
   const [workoutDetails, setWorkoutDetails] = useState("");
   const [athleteNotes, setAthleteNotes] = useState("");
@@ -56,7 +58,8 @@ const AthleteHomepage = () => {
     new Date()
   );
   // workoutStatus state for monthly summary and fetch request to back end to retrieve initial data
-  const { workoutStatus, setWorkoutStatus } = useWorkoutStatus();
+  const { workoutStatus, setWorkoutStatus, yearlySummary, setYearlySummary } =
+    useWorkoutStatus();
   // deconstruct values from initialModalState to pass into context provider
   const { open, workoutValue, method } = initialModalState;
 
@@ -126,6 +129,23 @@ const AthleteHomepage = () => {
     });
   };
 
+  // function to fetch yearly and monthly summary data
+  const fetchSummaryData = async (value) => {
+    // fetch summary data
+    const response = await axios.get(`workouts/summary?date=${value}`);
+    console.log("data response ->", response.data);
+    // set state here
+    // if (response.data.workoutStatus.length) {
+    // setWorkoutStatusAvaliable(true);
+    console.log("workoutStatus", response.data.workoutStatus);
+    setWorkoutStatus(response.data.workoutStatus);
+    // } else {
+    //   setWorkoutStatusAvaliable(false);
+    // }
+
+    setYearlySummary(response.data.yearlySummary);
+  };
+
   // Handle form submission
   const handleSubmission = async (e, deleteRequest) => {
     // prevent default refresh after form submission
@@ -159,14 +179,12 @@ const AthleteHomepage = () => {
       // add new workout to state obj
       addWorkouts({ type: "add workout", payload: res.data });
     }
-    // fetch summary data
-    const response = await axios.get(`workouts/summary?date=${new Date()}`);
-    // set state here
-    setWorkoutStatus(response.data);
+    fetchSummaryData(value);
   };
 
   // handle date change on click within calendar component
   const handleDateChange = async (newValue) => {
+    fetchSummaryData(newValue);
     setValue(newValue);
   };
 
@@ -188,7 +206,10 @@ const AthleteHomepage = () => {
         workoutComplete,
         workouts,
         workoutStatus,
+        yearlySummary,
         editWorkoutDetails,
+        fetchSummaryData,
+        workoutStatusAvaliable,
       }}
     >
       <Box>

@@ -11,10 +11,14 @@ dateController.formatDate = (req, res, next) => {
     }
     // format date to sql specs for querying date ranges
     const year = modifiedDate.getFullYear();
-    const month = modifiedDate.getMonth();
+    let month = modifiedDate.getMonth() + 1;
+    console.log("month", month);
     let day = modifiedDate.getDate();
-    if (day.length === 1) {
-      day = 0 + day;
+    if (day < 10) {
+      day = "0" + day;
+    }
+    if (month < 10) {
+      month = "0" + month;
     }
     const date = `${year}-${month}-${day}`;
     if (req.query.date) {
@@ -22,7 +26,7 @@ dateController.formatDate = (req, res, next) => {
     } else {
       req.body.modifiedDate = date;
     }
-
+    console.log(date);
     return next();
   } catch (err) {
     return next({
@@ -34,17 +38,27 @@ dateController.formatDate = (req, res, next) => {
 
 dateController.getDateRanges = (req, res, next) => {
   try {
-    const startDate = req.query.date.slice(0, 8) + "01";
-    let endMonth = Number(req.query.date.slice(5, 7));
-    if (endMonth === 12) {
+    // console.log("req query date", req.query.date);
+    // const startDate = req.query.date.slice(0, 8) + "01";
+    const date = new Date(req.query.date);
+    const year = date.getFullYear();
+    let endYear = year;
+    let month = date.getMonth() + 1;
+    let endMonth = month + 1;
+    console.log("end month", endMonth);
+    if (endMonth > 12) {
       endMonth = "01";
+      endYear += 1;
     } else if (endMonth < 10) {
-      endMonth += 1;
       endMonth = "0" + endMonth;
-    } else {
-      endMonth = endMonth + 1;
+      console.log("end month!!", endMonth);
     }
-    const endDate = req.query.date.slice(0, 5) + endMonth + "01";
+    if (month < 10) {
+      month = "0" + month;
+    }
+    const startDate = year + "-" + month + "-" + "01";
+    const endDate = endYear + "-" + endMonth + "-" + "01";
+    console.log("start and end dates ", startDate, endDate);
     req.query.dateRange = { startDate, endDate };
     return next();
   } catch (err) {

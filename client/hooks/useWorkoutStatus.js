@@ -7,6 +7,7 @@ import axios from "axios";
 const useWorkoutStatus = () => {
   // workout complete and not complete status state
   const [workoutStatus, setWorkoutStatus] = useState([]);
+  const [yearlySummary, setYearlySummary] = useState([]);
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -21,7 +22,9 @@ const useWorkoutStatus = () => {
         );
         if (response.data) {
           // set state here
-          setWorkoutStatus(response.data);
+          console.log("workout status res data", response.data);
+          setWorkoutStatus(response.data.workoutStatus);
+          setYearlySummary(response.data.yearlySummary);
         }
       } catch (err) {
         if (err.name === "AbortError") {
@@ -37,7 +40,7 @@ const useWorkoutStatus = () => {
       controller.abort();
     };
   }, []);
-  return { workoutStatus, setWorkoutStatus };
+  return { workoutStatus, setWorkoutStatus, yearlySummary, setYearlySummary };
 };
 
 export default useWorkoutStatus;

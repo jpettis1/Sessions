@@ -1,7 +1,21 @@
 const db = require("../models/sessionModels");
 
 // function for generating monthly workout summary
-const generateWorkoutSummaryStatus = (data) => {
+const retrieveSummaryInfo = async (startDate, endDate) => {
+  console.log("start and end dates in retrieveSumInfo", startDate, endDate);
+  const values = [startDate, endDate];
+
+  const queryStr =
+    "SELECT workout_status FROM workouts WHERE workout_date BETWEEN $1 AND $2";
+
+  // query db to get completed workouts and non-completed workouts
+  const data = await db.query(queryStr, values);
+  console.log("this is summary data ->", data.rows);
+  return data.rows;
+};
+
+const calculateSummary = (data) => {
+  // calculate complete and incomplete summary status
   let complete = 0;
   let incomplete = 0;
   for (const workout of data) {
@@ -11,12 +25,9 @@ const generateWorkoutSummaryStatus = (data) => {
       incomplete += 1;
     }
   }
-  return [
-    { argument: 1, value: 0 },
-    { argument: 2, value: incomplete },
-    { argument: 3, value: complete },
-  ];
+  return [complete, incomplete];
 };
+
 // declare const set to object literal - hold methods on the workoutController object
 const workoutController = {};
 
@@ -50,26 +61,88 @@ workoutController.getWorkouts = async (req, res, next) => {
   }
 };
 
-workoutController.getSummary = async (req, res, next) => {
+workoutController.getMonthlySummary = async (req, res, next) => {
   try {
     const { startDate, endDate } = req.query.dateRange;
-    const values = [startDate, endDate];
-
-    const queryStr =
-      "SELECT workout_status FROM workouts WHERE workout_date BETWEEN $1 AND $2";
-
-    // query db to get completed workouts and non-completed workouts
-    const data = await db.query(queryStr, values);
-    console.log("summary data ->", data.rows);
-
+    // generate monthly summary
+    const data = await retrieveSummaryInfo(startDate, endDate);
     // compile workout summary data
-    res.locals.workoutStatus = generateWorkoutSummaryStatus(data.rows);
+    const summaryResult = calculateSummary(data);
+    if (summaryResult[0] !== 0 || summaryResult[1] !== 0) {
+      res.locals.workoutStatus = [
+        { argument: 1, value: 0 },
+        { argument: 2, value: summaryResult[1] },
+        { argument: 3, value: summaryResult[0] },
+      ];
+    } else {
+      res.locals.workoutStatus = [{ argument: 1, value: 0 }];
+    }
 
     return next();
   } catch (err) {
     return next({
       log: `workoutController.getSummary: ${err}`,
       message: { err: "Failed to add workout" },
+    });
+  }
+};
+
+workoutController.getYearlySummary = async (req, res, next) => {
+  try {
+    // generate start and end date ranges for all months of the year
+    const year = new Date().getFullYear();
+    let month = "01";
+    let nextMonth;
+    const dateRanges = [];
+    for (let i = 0; i < 12; i++) {
+      nextMonth = Number(month) + 1;
+      if (nextMonth < 10) {
+        nextMonth = "0" + nextMonth;
+      }
+      if (nextMonth > 12) {
+        nextMonth = "01";
+        dateRanges.push([`${year}-${month}-01`, `${year + 1}-${nextMonth}-01`]);
+      } else {
+        dateRanges.push([`${year}-${month}-01`, `${year}-${nextMonth}-01`]);
+      }
+      month = Number(month) + 1;
+      if (month < 10) {
+        month = "0" + month;
+      }
+    }
+
+    // data formatted for line chart
+    const yearSummaryResult = [
+      { date: "Jan" },
+      { date: "Feb" },
+      { date: "Mar" },
+      { date: "Apr" },
+      { date: "May" },
+      { date: "Jun" },
+      { date: "Jul" },
+      { date: "Aug" },
+      { date: "Sep" },
+      { date: "Oct" },
+      { date: "Nov" },
+      { date: "Dec" },
+    ];
+
+    // retrieve, calculate, and append value to yearlySummary result
+    for (let j = 0; j < dateRanges.length; j++) {
+      const data = await retrieveSummaryInfo(
+        dateRanges[j][0],
+        dateRanges[j][1]
+      );
+      yearSummaryResult[j].value = calculateSummary(data)[0];
+    }
+
+    res.locals.yearlySummary = yearSummaryResult;
+
+    return next();
+  } catch (err) {
+    return next({
+      log: `workoutController.getYearlySummary: ${err}`,
+      message: { err: "Failed to fetch yearly summary" },
     });
   }
 };

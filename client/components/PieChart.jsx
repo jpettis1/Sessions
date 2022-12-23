@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AthleteHomePageContext } from "./AthleteHomepage.jsx";
 import { Paper, Box } from "@mui/material";
+import { Palette } from "@devexpress/dx-react-chart";
 import {
   ArgumentAxis,
   ValueAxis,
@@ -10,7 +11,10 @@ import {
 
 const PieChart = () => {
   // props passed down from AthleteHOmePageContext
-  const { workoutStatus } = useContext(AthleteHomePageContext);
+  const { workoutStatus, workoutStatusAvaliable } = useContext(
+    AthleteHomePageContext
+  );
+
   return (
     <Paper
       className="PieChart"
@@ -24,14 +28,20 @@ const PieChart = () => {
       }}
     >
       <h3>Monthly Summary</h3>
-      <Chart height={300} data={workoutStatus}>
-        <PieSeries
-          outerRadius={0.6}
-          valueField="value"
-          argumentField="argument"
-          color="red"
-        />
-      </Chart>
+      {workoutStatus.length > 1 ? (
+        <Chart height={300} data={workoutStatus}>
+          <PieSeries
+            outerRadius={0.6}
+            valueField="value"
+            argumentField="argument"
+          />
+        </Chart>
+      ) : (
+        <h3 className="no-workout-notification">
+          No workouts posted for this month
+        </h3>
+      )}
+
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <h4 className="pie-chart-key">
           Complete: <div className="workouts-completed"></div>

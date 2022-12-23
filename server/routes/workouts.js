@@ -20,10 +20,17 @@ router.get(
 );
 
 // get sumary of workouts
-router.get("/summary", isAuth, dateController.formatDate, dateController.getDateRanges, workoutsController.getSummary, (req, res) => {
-  return res.status(200).json(res.locals.workoutStatus);
-});
-
+router.get(
+  "/summary",
+  isAuth,
+  dateController.getDateRanges,
+  workoutsController.getMonthlySummary,
+  workoutsController.getYearlySummary,
+  (req, res) => {
+    return res.status(200).json(res.locals);
+  }
+);
+// dateController.formatDate,
 // Post new workout to selected day
 router.post(
   "/",
