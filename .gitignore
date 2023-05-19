@@ -3,3 +3,4 @@ node_modules/
 dist/bundle.js
 package-lock.json
 .envclie
+.env

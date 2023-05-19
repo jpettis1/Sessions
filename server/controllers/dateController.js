@@ -26,7 +26,6 @@ dateController.formatDate = (req, res, next) => {
     } else {
       req.body.modifiedDate = date;
     }
-    console.log(date);
     return next();
   } catch (err) {
     return next({

@@ -10,6 +10,7 @@ auth.isAuth = (req, res, next) => {
   }
 };
 
+// future feature for admin users
 auth.isAdmin = (req, res, next) => {};
 
 module.exports = auth;
