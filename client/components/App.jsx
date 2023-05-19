@@ -1,14 +1,14 @@
-import React, { useState, useEffect, createContext } from "react";
-import axios from "axios";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import ResponsiveAppBar from "./global/AppBar.jsx";
-import AthleteHomepage from "./AthleteHomepage.jsx";
-import FooterNavContent from "./global/FooterNavContent.jsx";
-import LoginPage from "./LoginPage.jsx";
-import SignUpForm from "./SignUp.jsx";
+import React, { useState, useEffect, createContext } from 'react';
+import axios from 'axios';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import ResponsiveAppBar from './global/AppBar.jsx';
+import AthleteHomepage from './AthleteHomepage.jsx';
+import FooterNavContent from './global/FooterNavContent.jsx';
+import LoginPage from './LoginPage.jsx';
+import SignUpForm from './SignUp.jsx';
 // Import scss file
-import "../stylesheets/styles.scss";
-import { Box, getListSubheaderUtilityClass } from "@mui/material";
+import '../stylesheets/styles.scss';
+import { Box, getListSubheaderUtilityClass } from '@mui/material';
 
 // create context to give child props access to values
 export const AppContext = createContext(null);
@@ -22,8 +22,8 @@ const App = () => {
       const signal = controller.signal;
       const getUser = async () => {
         // fetch user data to autheticate user
-        const response = await axios.get("login/auth/google/success", {
-          signal: signal,
+        const response = await axios.get('login/auth/google/success', {
+          signal: signal
         });
         if (response.data.user) {
           setUser(response.data.user);
@@ -31,10 +31,10 @@ const App = () => {
       };
       getUser();
     } catch (err) {
-      if (err.name === "AbortError") {
-        console.log("successfully aborted");
+      if (err.name === 'AbortError') {
+        console.log('successfully aborted');
       } else {
-        console.log("request error occurred", err);
+        console.log('request error occurred', err);
       }
     }
     return () => {
@@ -51,16 +51,13 @@ const App = () => {
     <AppContext.Provider
       value={{
         deleteUser,
-        user,
+        user
       }}
     >
       <Box>
         <Routes>
           <Route path="/dashboard" element={<AthleteHomepage />} />
-          <Route
-            path="/"
-            element={user ? <Navigate to="/dashboard" /> : <LoginPage />}
-          />
+          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <LoginPage />} />
           <Route path="/signup" element={<SignUpForm />} />
         </Routes>
         <FooterNavContent />

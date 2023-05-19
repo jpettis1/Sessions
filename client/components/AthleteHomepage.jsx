@@ -1,35 +1,35 @@
-import React, { useState, useEffect, useReducer, createContext } from "react";
-import ResponsiveAppBar from "./global/AppBar.jsx";
-import axios from "axios";
-import UpcomingEventsView from "./UpcomingEvents.jsx";
-import useDateAndWorkout from "../hooks/useDateAndWorkout";
-import useWorkoutStatus from "../hooks/useWorkoutStatus.js";
-import Calendar from "./Calendar.jsx";
-import WorkoutDetailsTile from "./WorkoutDetailsTile.jsx";
-import UpcomingCoachingSessions from "./UpcomingCoachingSessions.jsx";
+import React, { useState, useEffect, useReducer, createContext } from 'react';
+import ResponsiveAppBar from './global/AppBar.jsx';
+import axios from 'axios';
+import UpcomingEventsView from './UpcomingEvents.jsx';
+import useDateAndWorkout from '../hooks/useDateAndWorkout';
+import useWorkoutStatus from '../hooks/useWorkoutStatus.js';
+import Calendar from './Calendar.jsx';
+import WorkoutDetailsTile from './WorkoutDetailsTile.jsx';
+import UpcomingCoachingSessions from './UpcomingCoachingSessions.jsx';
 // import CustomUpcomingView from "./customcomponents/CustomBoxComponent.jsx";
-import FormDialog from "./NewWorkoutFormDialog.jsx";
-import PieChart from "./PieChart.jsx";
-import BarChart from "./BarChart.jsx";
-import FooterNavContent from "./global/FooterNavContent.jsx";
-import { Box } from "@mui/material";
+import FormDialog from './NewWorkoutFormDialog.jsx';
+import PieChart from './PieChart.jsx';
+import BarChart from './BarChart.jsx';
+import FooterNavContent from './global/FooterNavContent.jsx';
+import { Box } from '@mui/material';
 
 // create context to give child props access to values
 export const AthleteHomePageContext = createContext(null);
 // reducer for handling modal state changes
 const modalStateReducer = (state, action) => {
   switch (action.type) {
-    case "changeModalVisibility":
+    case 'changeModalVisibility':
       return {
         ...state,
-        open: !state.open,
+        open: !state.open
       };
-    case "changeMethod":
+    case 'changeMethod':
       return {
         ...state,
-        method: action.payload,
+        method: action.payload
       };
-    case "setWorkoutType":
+    case 'setWorkoutType':
       return { ...state, workoutValue: action.payload };
     default:
       return state;
@@ -41,25 +41,21 @@ const AthleteHomepage = () => {
   // change modal state, workout value, and form methods
   const [initialModalState, changeModalState] = useReducer(modalStateReducer, {
     open: false,
-    workoutValue: "Bike",
-    method: "POST",
+    workoutValue: 'Bike',
+    method: 'POST'
   });
   // workout id for querying update requests
-  const [workoutId, setWorkoutId] = useState("");
+  const [workoutId, setWorkoutId] = useState('');
   // boolean indicating  workout status data avaliability
   const [workoutStatusAvaliable, setWorkoutStatusAvaliable] = useState(true);
   // state for form fields
-  const [workoutDetails, setWorkoutDetails] = useState("");
-  const [athleteNotes, setAthleteNotes] = useState("");
+  const [workoutDetails, setWorkoutDetails] = useState('');
+  const [athleteNotes, setAthleteNotes] = useState('');
   const [workoutComplete, setWorkoutComplete] = useState(false);
   // custom hook for handling workout and date status and fetching of data
-  const { value, setValue, workouts, addWorkouts } = useDateAndWorkout(
-    [],
-    new Date()
-  );
+  const { value, setValue, workouts, addWorkouts } = useDateAndWorkout([], new Date());
   // workoutStatus state for monthly summary and fetch request to back end to retrieve initial data
-  const { workoutStatus, setWorkoutStatus, yearlySummary, setYearlySummary } =
-    useWorkoutStatus();
+  const { workoutStatus, setWorkoutStatus, yearlySummary, setYearlySummary } = useWorkoutStatus();
   // deconstruct values from initialModalState to pass into context provider
   const { open, workoutValue, method } = initialModalState;
 
@@ -67,13 +63,13 @@ const AthleteHomepage = () => {
   // handle text input change
   const handleTextInputChange = (val, label) => {
     switch (label) {
-      case "Enter workout details":
+      case 'Enter workout details':
         setWorkoutDetails(val);
         break;
       case "Enter coach's notes":
         setCoachNotes(val);
         break;
-      case "Enter athlete notes":
+      case 'Enter athlete notes':
         setAthleteNotes(val);
         break;
       default:
@@ -84,12 +80,12 @@ const AthleteHomepage = () => {
   //reset form
   const resetForm = () => {
     // close modal
-    changeModalState({ type: "changeModalVisibility" });
+    changeModalState({ type: 'changeModalVisibility' });
     // set request method to false
-    changeModalState({ type: "changeMethod", payload: "POST" });
+    changeModalState({ type: 'changeMethod', payload: 'POST' });
     // reset form fields
-    setWorkoutDetails("");
-    setAthleteNotes("");
+    setWorkoutDetails('');
+    setAthleteNotes('');
     setWorkoutComplete(false);
   };
 
@@ -97,20 +93,14 @@ const AthleteHomepage = () => {
   const populateForm = (id) => {
     for (const workout of workouts) {
       if (workout.workoutId === id) {
-        const {
-          workoutValue,
-          workoutDetails,
-          workoutId,
-          workoutStatus,
-          athleteNotes,
-        } = workout;
+        const { workoutValue, workoutDetails, workoutId, workoutStatus, athleteNotes } = workout;
         changeModalState({
-          type: "setWorkoutType",
-          payload: workoutValue,
+          type: 'setWorkoutType',
+          payload: workoutValue
         });
         changeModalState({
-          type: "changeMethod",
-          payload: "PUT",
+          type: 'changeMethod',
+          payload: 'PUT'
         });
         setWorkoutDetails(workoutDetails);
         setAthleteNotes(athleteNotes);
@@ -125,7 +115,7 @@ const AthleteHomepage = () => {
     populateForm(id);
     // open modal
     changeModalState({
-      type: "changeModalVisibility",
+      type: 'changeModalVisibility'
     });
   };
 
@@ -133,11 +123,11 @@ const AthleteHomepage = () => {
   const fetchSummaryData = async (value) => {
     // fetch summary data
     const response = await axios.get(`workouts/summary?date=${value}`);
-    console.log("data response ->", response.data);
+    console.log('data response ->', response.data);
     // set state here
     // if (response.data.workoutStatus.length) {
     // setWorkoutStatusAvaliable(true);
-    console.log("workoutStatus", response.data.workoutStatus);
+    console.log('workoutStatus', response.data.workoutStatus);
     setWorkoutStatus(response.data.workoutStatus);
     // } else {
     //   setWorkoutStatusAvaliable(false);
@@ -156,28 +146,28 @@ const AthleteHomepage = () => {
       workoutDetails: workoutDetails,
       workoutStatus: workoutComplete,
       athleteNotes: athleteNotes,
-      modifiedDate: value,
+      modifiedDate: value
     };
     if (deleteRequest) {
       const res = await axios.delete(`/workouts?id=${workoutId}`);
       // reset input form
       resetForm();
       // delete existing workout in state
-      addWorkouts({ type: "delete workout", payload: res.data });
-    } else if (method === "PUT") {
+      addWorkouts({ type: 'delete workout', payload: res.data });
+    } else if (method === 'PUT') {
       // make a put request to the db to submit new workout details
       const res = await axios.put(`/workouts?id=${workoutId}`, data);
       // reset input form
       resetForm();
       // edit existing workout in state
-      addWorkouts({ type: "edit workout", payload: res.data });
+      addWorkouts({ type: 'edit workout', payload: res.data });
     } else {
       // make a put request to the db to submit new workout details
-      const res = await axios.post("/workouts", data);
+      const res = await axios.post('/workouts', data);
       // reset input form
       resetForm();
       // add new workout to state obj
-      addWorkouts({ type: "add workout", payload: res.data });
+      addWorkouts({ type: 'add workout', payload: res.data });
     }
     fetchSummaryData(value);
   };
@@ -209,16 +199,16 @@ const AthleteHomepage = () => {
         yearlySummary,
         editWorkoutDetails,
         fetchSummaryData,
-        workoutStatusAvaliable,
+        workoutStatusAvaliable
       }}
     >
       <Box>
         <ResponsiveAppBar />
         <Box
           sx={{
-            minHeight: "calc(100vh - 210px)",
-            marginBottom: "1.5rem",
-            padding: "0 10px",
+            minHeight: 'calc(100vh - 210px)',
+            marginBottom: '1.5rem',
+            padding: '0 10px'
           }}
         >
           <h1 className="athlete-homepage-header">Training Schedule</h1>
