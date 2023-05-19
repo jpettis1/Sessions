@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box,
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -11,9 +9,6 @@ import {
   TableRow,
   TablePagination
 } from '@mui/material';
-import { textAlign } from '@mui/system';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
 // format and populate columns and rows of table
 // create column data to use as map when populating rows
 
@@ -88,8 +83,7 @@ const CustomUpcomingView = (props) => {
       sx={{
         padding: '10px'
       }}
-      className={customClass}
-    >
+      className={customClass}>
       <Paper
         elevation={5}
         sx={{
@@ -97,8 +91,7 @@ const CustomUpcomingView = (props) => {
           backgroundColor: '#08B2E3',
           padding: '10px',
           color: '#fff'
-        }}
-      >
+        }}>
         <h2>Upcoming Events</h2>
       </Paper>
 

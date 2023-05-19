@@ -1,14 +1,13 @@
 import React, { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import ResponsiveAppBar from './global/AppBar.jsx';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import AthleteHomepage from './AthleteHomepage.jsx';
 import FooterNavContent from './global/FooterNavContent.jsx';
 import LoginPage from './LoginPage.jsx';
 import SignUpForm from './SignUp.jsx';
 // Import scss file
 import '../stylesheets/styles.scss';
-import { Box, getListSubheaderUtilityClass } from '@mui/material';
+import { Box } from '@mui/material';
 
 // create context to give child props access to values
 export const AppContext = createContext(null);
@@ -52,8 +51,7 @@ const App = () => {
       value={{
         deleteUser,
         user
-      }}
-    >
+      }}>
       <Box>
         <Routes>
           <Route path="/dashboard" element={<AthleteHomepage />} />

@@ -28,8 +28,7 @@ const BarChart = () => {
       sx={{
         textAlign: 'center',
         padding: '15px'
-      }}
-    >
+      }}>
       <h3>Yearly Summary</h3>
 
       <Chart height={300} data={yearlySummary}>

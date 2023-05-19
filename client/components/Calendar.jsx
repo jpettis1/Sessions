@@ -3,15 +3,12 @@ import { AthleteHomePageContext } from './AthleteHomepage.jsx';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-// import DateFnsUtils from "@date-io/date-fns";
-import { Box, Badge, TextField, ButtonGroup, IconButton, Grow, Paper } from '@mui/material';
+import { Box, TextField, ButtonGroup, Grow, Paper } from '@mui/material';
 import { CustomIconButton } from './customcomponents/customiconbutton.jsx';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import CheckIcon from '@mui/icons-material/Check';
 import PoolIcon from '@mui/icons-material/Pool';
 import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
@@ -73,8 +70,7 @@ const Calendar = () => {
         '& .css-195y93z-MuiButtonBase-root-MuiPickersDay-root.Mui-selected': {
           backgroundColor: '#08B2E3'
         }
-      }}
-    >
+      }}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <StaticDatePicker
           // orientation="landscape"
@@ -99,8 +95,7 @@ const Calendar = () => {
                     type: 'changeModalVisibility'
                   });
                   changeModalState({ type: 'setWorkoutType', payload: 'Run' });
-                }}
-              >
+                }}>
                 <DirectionsRunIcon />
               </CustomIconButton>
             </Grow>
@@ -114,8 +109,7 @@ const Calendar = () => {
                     type: 'changeModalVisibility'
                   });
                   changeModalState({ type: 'setWorkoutType', payload: 'Bike' });
-                }}
-              >
+                }}>
                 <DirectionsBikeIcon />
               </CustomIconButton>
             </Grow>
@@ -129,8 +123,7 @@ const Calendar = () => {
                     type: 'changeModalVisibility'
                   });
                   changeModalState({ type: 'setWorkoutType', payload: 'Swim' });
-                }}
-              >
+                }}>
                 <PoolIcon />
               </CustomIconButton>
             </Grow>
@@ -147,8 +140,7 @@ const Calendar = () => {
                     type: 'setWorkoutType',
                     payload: 'Weights'
                   });
-                }}
-              >
+                }}>
                 <FitnessCenterIcon />
               </CustomIconButton>
             </Grow>
@@ -164,8 +156,7 @@ const Calendar = () => {
             backgroundColor: '#08B2E3'
           }}
           size="small"
-          onClick={handleClick}
-        >
+          onClick={handleClick}>
           {!changeIcon ? <AddIcon sx={{ color: '#fff' }} /> : <EditIcon />}
         </Fab>
       </ButtonGroup>

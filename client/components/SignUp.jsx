@@ -1,7 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, Button, TextField, Typography } from '@mui/material';
-import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import axios from 'axios';
 
@@ -44,8 +43,7 @@ const SignUpForm = () => {
           gap: '1rem',
           padding: '10px',
           backgroundColor: '#EE6352'
-        }}
-      >
+        }}>
         <FitnessCenterIcon sx={{ color: '#fff' }} />
         <Typography
           variant="h6"
@@ -60,8 +58,7 @@ const SignUpForm = () => {
             letterSpacing: '.3rem',
             color: '#fff',
             textDecoration: 'none'
-          }}
-        >
+          }}>
           Sessions
         </Typography>
       </Box>
@@ -74,8 +71,7 @@ const SignUpForm = () => {
           flexDirection: 'column',
           alignItems: 'center',
           gap: 2
-        }}
-      >
+        }}>
         <Paper
           elevation={5}
           sx={{
@@ -85,8 +81,7 @@ const SignUpForm = () => {
             gap: 1,
             borderRadius: 'sm',
             boxShadow: 'md'
-          }}
-        >
+          }}>
           <div className="login-header-div">
             <h2 className="login-header">Sign up</h2>
             <h5>Never miss a workout</h5>
@@ -124,8 +119,7 @@ const SignUpForm = () => {
                   backgroundColor: '#EE6352'
                 }}
                 variant="contained"
-                type="submit"
-              >
+                type="submit">
                 Sign up
               </Button>
             </Box>

@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable indent */
-import React, { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // handle modified date change on date value change

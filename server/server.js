@@ -1,14 +1,11 @@
-const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
 require('./passportConfig/googleAuthStrategy');
 require('./passportConfig/localAuthStrategy');
-const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
-
 // handle session data, gives access to req.session
 app.use(
   session({
@@ -63,7 +60,7 @@ app.use('*', (req, res) => {
 /**
  * configure express global error handler
  */
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 400,

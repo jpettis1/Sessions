@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { AthleteHomePageContext } from './AthleteHomepage.jsx';
 import { Paper, Box } from '@mui/material';
-import { Palette } from '@devexpress/dx-react-chart';
-import { ArgumentAxis, ValueAxis, Chart, PieSeries } from '@devexpress/dx-react-chart-material-ui';
+import { Chart, PieSeries } from '@devexpress/dx-react-chart-material-ui';
 
 const PieChart = () => {
   // props passed down from AthleteHOmePageContext
-  const { workoutStatus, workoutStatusAvaliable } = useContext(AthleteHomePageContext);
+  const { workoutStatus } = useContext(AthleteHomePageContext);
 
   return (
     <Paper
@@ -18,8 +17,7 @@ const PieChart = () => {
         justifyContent: 'center',
         padding: '15px'
         //   alignItems: "center",
-      }}
-    >
+      }}>
       <h3>Monthly Summary</h3>
       {workoutStatus.length > 1 ? (
         <Chart height={300} data={workoutStatus}>

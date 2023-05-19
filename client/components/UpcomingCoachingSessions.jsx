@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  Box,
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -11,9 +9,6 @@ import {
   TableRow,
   TablePagination
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import { textAlign } from '@mui/system';
 
 // format and populate columns and rows of table
 // create column data to use as map when populating rows
@@ -73,8 +68,7 @@ const UpcomingCoachingSessions = () => {
       sx={{
         padding: '10px'
       }}
-      className="UpcomingCoachingSessions"
-    >
+      className="UpcomingCoachingSessions">
       <Paper
         elevation={5}
         sx={{
@@ -82,8 +76,7 @@ const UpcomingCoachingSessions = () => {
           backgroundColor: '#08B2E3',
           padding: '10px',
           color: '#fff'
-        }}
-      >
+        }}>
         <h3>Coaching Sessions</h3>
       </Paper>
       <Paper sx={{ width: '100%' }}>
@@ -91,8 +84,7 @@ const UpcomingCoachingSessions = () => {
           sx={{
             maxHeight: '100%',
             overFlowX: 'hidden'
-          }}
-        >
+          }}>
           <Table sx={{ overFlowX: 'hidden' }} stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>

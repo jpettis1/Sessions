@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React from 'react';
 
 class ErrorBoundary extends React.Component {
   state = { error: null, errorInfo: null };

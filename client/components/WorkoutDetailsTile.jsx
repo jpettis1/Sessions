@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import { el } from 'date-fns/locale';
 // format and populate columns and rows of table
 const columns = [
   { id: 'workoutValue', label: 'Workout', minWidth: 170 },
@@ -37,8 +36,7 @@ const WorkoutDetailsTile = () => {
       elevation={5}
       sx={{
         padding: '10px'
-      }}
-    >
+      }}>
       <Paper
         elevation={5}
         sx={{
@@ -48,8 +46,7 @@ const WorkoutDetailsTile = () => {
           alignItems: 'center',
           padding: '10px',
           color: '#fff'
-        }}
-      >
+        }}>
         <h3>Selected Workout / {value.toString().slice(0, 15)}</h3>
         <Box>
           <IconButton
@@ -58,8 +55,7 @@ const WorkoutDetailsTile = () => {
               changeModalState({
                 type: 'changeModalVisibility'
               });
-            }}
-          >
+            }}>
             <AddIcon />
           </IconButton>
           <IconButton sx={{ color: 'white' }}>
@@ -77,26 +73,28 @@ const WorkoutDetailsTile = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {workouts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    id={row.workoutId}
-                    onClick={(e) => editWorkoutDetails(e.currentTarget.id)}
-                  >
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+              {workouts
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, i) => {
+                  return (
+                    <TableRow
+                      key={i}
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      id={row.workoutId}
+                      onClick={(e) => editWorkoutDetails(e.currentTarget.id)}>
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
@@ -122,5 +120,3 @@ const WorkoutDetailsTile = () => {
 };
 
 export default WorkoutDetailsTile;
-
-// .toDateString()

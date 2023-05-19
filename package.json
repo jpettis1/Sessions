@@ -9,7 +9,7 @@
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --hot --open --progress --color\" \"nodemon ./server/server.js\"",
     "build": "webpack",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix",
+    "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx}'",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "author": "Jeff Pettis",

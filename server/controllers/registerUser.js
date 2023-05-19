@@ -7,7 +7,7 @@ const registerUser = async (req, res, next) => {
     const saltHash = genPassword(password);
     const salt = saltHash.salt;
     const hash = saltHash.hash;
-    const values = [username, hash, salt];
+    // const values = [username, hash, salt];
     const queryStr =
       'INSERT INTO users (email, hash, salt) VALUES($1, $2, $3) RETURNING _id, email';
     const newUser = await db.query(queryStr, values);

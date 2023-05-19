@@ -1,6 +1,6 @@
 import React from 'react';
 import { CustomFooterButton } from '../customcomponents/CustomFooterButton.jsx';
-import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
+import { BottomNavigation, Box } from '@mui/material';
 
 const FooterNavContent = () => {
   return (
@@ -11,8 +11,7 @@ const FooterNavContent = () => {
         sx={{
           backgroundColor: '#757575',
           height: '100px'
-        }}
-      >
+        }}>
         <CustomFooterButton label="Contact Us" />
         <CustomFooterButton label="Find A Coach" />
         <CustomFooterButton label="Premium Membership" />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, createContext } from 'react';
+import React, { useState, useReducer, createContext } from 'react';
 import ResponsiveAppBar from './global/AppBar.jsx';
 import axios from 'axios';
 import UpcomingEventsView from './UpcomingEvents.jsx';
@@ -11,7 +11,6 @@ import UpcomingCoachingSessions from './UpcomingCoachingSessions.jsx';
 import FormDialog from './NewWorkoutFormDialog.jsx';
 import PieChart from './PieChart.jsx';
 import BarChart from './BarChart.jsx';
-import FooterNavContent from './global/FooterNavContent.jsx';
 import { Box } from '@mui/material';
 
 // create context to give child props access to values
@@ -37,7 +36,6 @@ const modalStateReducer = (state, action) => {
 };
 
 const AthleteHomepage = () => {
-  // STATE
   // change modal state, workout value, and form methods
   const [initialModalState, changeModalState] = useReducer(modalStateReducer, {
     open: false,
@@ -46,8 +44,6 @@ const AthleteHomepage = () => {
   });
   // workout id for querying update requests
   const [workoutId, setWorkoutId] = useState('');
-  // boolean indicating  workout status data avaliability
-  const [workoutStatusAvaliable, setWorkoutStatusAvaliable] = useState(true);
   // state for form fields
   const [workoutDetails, setWorkoutDetails] = useState('');
   const [athleteNotes, setAthleteNotes] = useState('');
@@ -119,20 +115,10 @@ const AthleteHomepage = () => {
     });
   };
 
-  // function to fetch yearly and monthly summary data
   const fetchSummaryData = async (value) => {
-    // fetch summary data
     const response = await axios.get(`workouts/summary?date=${value}`);
     console.log('data response ->', response.data);
-    // set state here
-    // if (response.data.workoutStatus.length) {
-    // setWorkoutStatusAvaliable(true);
-    console.log('workoutStatus', response.data.workoutStatus);
     setWorkoutStatus(response.data.workoutStatus);
-    // } else {
-    //   setWorkoutStatusAvaliable(false);
-    // }
-
     setYearlySummary(response.data.yearlySummary);
   };
 
@@ -198,10 +184,8 @@ const AthleteHomepage = () => {
         workoutStatus,
         yearlySummary,
         editWorkoutDetails,
-        fetchSummaryData,
-        workoutStatusAvaliable
-      }}
-    >
+        fetchSummaryData
+      }}>
       <Box>
         <ResponsiveAppBar />
         <Box
@@ -209,8 +193,7 @@ const AthleteHomepage = () => {
             minHeight: 'calc(100vh - 210px)',
             marginBottom: '1.5rem',
             padding: '0 10px'
-          }}
-        >
+          }}>
           <h1 className="athlete-homepage-header">Training Schedule</h1>
           <Box className="GridContainer">
             <UpcomingEventsView />

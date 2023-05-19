@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AthleteHomePageContext } from './AthleteHomepage.jsx';
 import {
   Button,
@@ -15,7 +15,6 @@ import {
   Checkbox,
   FormControlLabel
 } from '@mui/material';
-import { set } from 'date-fns';
 
 export default function FormDialog() {
   // props passed down from AthleteHOmePageContext
@@ -40,8 +39,7 @@ export default function FormDialog() {
           <form
             onSubmit={(e) => {
               handleSubmission(e);
-            }}
-          >
+            }}>
             <Box
               sx={{
                 marginBottom: '1rem',
@@ -49,8 +47,7 @@ export default function FormDialog() {
                 '& .css-1c2i806-MuiFormLabel-root-MuiInputLabel-root': {
                   fontSize: '1.3rem'
                 }
-              }}
-            >
+              }}>
               <FormControl fullWidth>
                 <InputLabel variant="standard" htmlFor="uncontrolled-native">
                   Select Workout Type
@@ -66,8 +63,7 @@ export default function FormDialog() {
                       type: 'setWorkoutType',
                       payload: e.target.value
                     })
-                  }
-                >
+                  }>
                   <option value={'Bike'}>Bike</option>
                   <option value={'Run'}>Run</option>
                   <option value={'Swim'}>Swim</option>
@@ -112,8 +108,7 @@ export default function FormDialog() {
                 color="error"
                 onClick={(e) => {
                   handleSubmission(e, true);
-                }}
-              >
+                }}>
                 Delete
               </Button>
               <Button type="submit" variant="contained">

@@ -62,8 +62,7 @@ const ResponsiveAppBar = () => {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none'
-            }}
-          >
+            }}>
             Sessions
           </Typography>
 
@@ -74,8 +73,7 @@ const ResponsiveAppBar = () => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+              color="inherit">
               <MenuIcon />
             </IconButton>
             <Menu
@@ -94,8 +92,7 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: 'block', md: 'none' }
-              }}
-            >
+              }}>
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
@@ -118,8 +115,7 @@ const ResponsiveAppBar = () => {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none'
-            }}
-          >
+            }}>
             Sessions
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -127,8 +123,7 @@ const ResponsiveAppBar = () => {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: '#fff', display: 'block' }}
-              >
+                sx={{ my: 2, color: '#fff', display: 'block' }}>
                 {page}
               </Button>
             ))}
@@ -154,8 +149,7 @@ const ResponsiveAppBar = () => {
                 horizontal: 'right'
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
+              onClose={handleCloseUserMenu}>
               {settings.map((setting) =>
                 setting === 'Logout' ? (
                   <MenuItem key={setting} onClick={() => handleCloseUserMenu(true)}>
