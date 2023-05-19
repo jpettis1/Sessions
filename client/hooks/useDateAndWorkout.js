@@ -49,6 +49,7 @@ const useDateAndWorkout = (workoutData, date) => {
     const getWorkoutData = async () => {
       try {
         // fetch user data to autheticate user
+        //
         const response = await axios.get(`workouts?date=${value}`, {
           signal: signal,
         });

@@ -36,12 +36,14 @@ passport.use(
 );
 // takes piece of info from record and pass on to put in cookie
 passport.serializeUser((user, done) => {
+  console.log("serialize user");
   // id will be associated with the user created in the database
   done(null, user._id);
 });
 
 // when cookie comes back, recieve id and deserialize so we can grab user from id
 passport.deserializeUser(async (id, done) => {
+  console.log("deserialize user");
   const values = [id];
   const queryStr =
     "SELECT _id, email, firstname, lastname, picture FROM users WHERE _id = $1";

@@ -9,13 +9,18 @@ const verifyCallback = async (username, password, done) => {
     const queryStr =
       "SELECT _id, email, hash, salt FROM users WHERE email = $1";
     const currUser = await db.query(queryStr, userInformation);
-    if (!currUser.rows.length) return done(null, false);
+    console.log("curr user", currUser.rows);
+    if (!currUser.rows.length) {
+      return done(null, false);
+    }
     const isValid = validPassword(
       password,
       currUser.rows[0].hash,
       currUser.rows[0].salt
     );
+    console.log("is valid", isValid);
     if (isValid) {
+      console.log("valid user");
       return done(null, currUser.rows[0]);
     } else {
       return done(null, false);

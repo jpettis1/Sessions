@@ -7,9 +7,21 @@ const registerUser = require("../controllers/registerUser");
 const { isAuth } = require("../controllers/isUserAuthenticated");
 
 // Handle local strategy with user name and password input
-router.post("/", passport.authenticate("local"), (req, res) => {
-  // CHANGE THIS TO NOT INCLUDE PASSWORDS!
+router.post(
+  "/",
+  passport.authenticate("local", {
+    failureRedirect: "login/failure",
+    successRedirect: "login/success",
+  })
+);
+
+router.get("/success", (req, res) => {
+  console.log("login success", req.user);
   res.status(200).json({ user: req.user });
+});
+
+router.get("/failure", (req, res) => {
+  res.status(401).send("invalid user credentials");
 });
 
 // Handle local strategy sign up

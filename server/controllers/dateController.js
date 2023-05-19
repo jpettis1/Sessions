@@ -38,27 +38,22 @@ dateController.formatDate = (req, res, next) => {
 
 dateController.getDateRanges = (req, res, next) => {
   try {
-    // console.log("req query date", req.query.date);
-    // const startDate = req.query.date.slice(0, 8) + "01";
     const date = new Date(req.query.date);
     const year = date.getFullYear();
     let endYear = year;
     let month = date.getMonth() + 1;
     let endMonth = month + 1;
-    console.log("end month", endMonth);
     if (endMonth > 12) {
       endMonth = "01";
       endYear += 1;
     } else if (endMonth < 10) {
       endMonth = "0" + endMonth;
-      console.log("end month!!", endMonth);
     }
     if (month < 10) {
       month = "0" + month;
     }
     const startDate = year + "-" + month + "-" + "01";
     const endDate = endYear + "-" + endMonth + "-" + "01";
-    console.log("start and end dates ", startDate, endDate);
     req.query.dateRange = { startDate, endDate };
     return next();
   } catch (err) {

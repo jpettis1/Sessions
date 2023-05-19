@@ -225,7 +225,9 @@ const AthleteHomepage = () => {
           <Box className="GridContainer">
             <UpcomingEventsView />
             <Calendar />
+
             <WorkoutDetailsTile />
+
             <UpcomingCoachingSessions />
             <FormDialog />
             <PieChart />
@@ -238,3 +240,5 @@ const AthleteHomepage = () => {
 };
 
 export default AthleteHomepage;
+
+console.log(AthleteHomepage.displayName);

@@ -22,6 +22,7 @@ const LoginPage = () => {
       }
     } catch (err) {
       console.log("user does not exist", err);
+      navigate("/signup");
     }
   };
 

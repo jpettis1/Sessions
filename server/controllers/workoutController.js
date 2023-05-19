@@ -2,15 +2,11 @@ const db = require("../models/sessionModels");
 
 // function for generating monthly workout summary
 const retrieveSummaryInfo = async (startDate, endDate) => {
-  console.log("start and end dates in retrieveSumInfo", startDate, endDate);
   const values = [startDate, endDate];
-
   const queryStr =
     "SELECT workout_status FROM workouts WHERE workout_date BETWEEN $1 AND $2";
-
   // query db to get completed workouts and non-completed workouts
   const data = await db.query(queryStr, values);
-  console.log("this is summary data ->", data.rows);
   return data.rows;
 };
 
@@ -150,6 +146,7 @@ workoutController.getYearlySummary = async (req, res, next) => {
 // declare a method add workout to save new workouts to the db
 workoutController.addWorkout = async (req, res, next) => {
   try {
+    console.log("this is req user", req.user);
     const {
       workoutValue,
       workoutDetails,
