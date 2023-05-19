@@ -1,11 +1,11 @@
-const path = require("path");
-const express = require("express");
-const session = require("express-session");
-const passport = require("passport");
-require("dotenv").config();
-require("./passportConfig/googleAuthStrategy");
-require("./passportConfig/localAuthStrategy");
-const cookieParser = require("cookie-parser");
+const path = require('path');
+const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+require('dotenv').config();
+require('./passportConfig/googleAuthStrategy');
+require('./passportConfig/localAuthStrategy');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
 
@@ -15,7 +15,7 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24, secure: false },
+    cookie: { maxAge: 1000 * 60 * 60 * 24, secure: false }
   })
 );
 
@@ -29,10 +29,10 @@ app.use(passport.session());
 /**
  * require routers
  */
-const usersRouter = require("./routes/users");
-const workoutsRouter = require("./routes/workouts");
-const loginRouter = require("./routes/login");
-const logoutRouter = require("./routes/logout");
+const usersRouter = require('./routes/users');
+const workoutsRouter = require('./routes/workouts');
+const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
 
 /**
  * handle parsing request body
@@ -46,18 +46,18 @@ app.use(express.json());
 /**
  * define route handlers
  */
-app.use("/workouts", workoutsRouter);
-app.use("/users", usersRouter);
-app.use("/login", loginRouter);
-app.use("/logout", logoutRouter);
+app.use('/workouts', workoutsRouter);
+app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 // serve main application - only in production mode
 // app.get("/", (req, res) => {
 //   res.sendFile(path.join(__dirname, "../client/index.html"));
 // });
 
-app.use("*", (req, res) => {
-  res.status(404).send("Page Not Found");
+app.use('*', (req, res) => {
+  res.status(404).send('Page Not Found');
 });
 
 /**
@@ -65,12 +65,12 @@ app.use("*", (req, res) => {
  */
 app.use((err, req, res, next) => {
   const defaultErr = {
-    log: "Express error handler caught unknown middleware error",
+    log: 'Express error handler caught unknown middleware error',
     status: 400,
-    message: { err: "An error occurred" },
+    message: { err: 'An error occurred' }
   };
   const errorObj = Object.assign(defaultErr, err);
-  console.log("errorObj.log: ", errorObj.log);
+  console.log('errorObj.log: ', errorObj.log);
   console.error(err.stack);
   res.status(errorObj.status).json(errorObj.message);
 });

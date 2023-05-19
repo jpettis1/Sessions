@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 const useRows = (rows) => {
   // state holding number of rows per page
@@ -21,7 +21,7 @@ const useRows = (rows) => {
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // conditional, if initial resize has not occured upon load, handleResize and reassign initial resize to true
     if (!handleInitialResize) {
@@ -30,7 +30,7 @@ const useRows = (rows) => {
     }
     // run clean up func to remove event and clear memory
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 

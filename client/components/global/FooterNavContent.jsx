@@ -1,6 +1,6 @@
-import React from "react";
-import { CustomFooterButton } from "../customcomponents/CustomFooterButton.jsx";
-import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
+import React from 'react';
+import { CustomFooterButton } from '../customcomponents/CustomFooterButton.jsx';
+import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
 
 const FooterNavContent = () => {
   return (
@@ -9,8 +9,8 @@ const FooterNavContent = () => {
         className="bottom-nav"
         showLabels
         sx={{
-          backgroundColor: "#757575",
-          height: "100px",
+          backgroundColor: '#757575',
+          height: '100px'
         }}
       >
         <CustomFooterButton label="Contact Us" />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   IconButton,
@@ -9,11 +9,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TablePagination,
-} from "@mui/material";
-import { textAlign } from "@mui/system";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
+  TablePagination
+} from '@mui/material';
+import { textAlign } from '@mui/system';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 // format and populate columns and rows of table
 // create column data to use as map when populating rows
 
@@ -42,8 +42,8 @@ import EditIcon from "@mui/icons-material/Edit";
 // ];
 
 const columns = [
-  { id: "event", label: "Event", minWidth: 170 },
-  { id: "eventDetails", label: "Event Details", minWidth: 100 },
+  { id: 'event', label: 'Event', minWidth: 170 },
+  { id: 'eventDetails', label: 'Event Details', minWidth: 100 }
 ];
 
 // upcoming events component
@@ -70,7 +70,7 @@ const CustomUpcomingView = (props) => {
   };
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     // conditional, if initial resize has not occured upon load, handleResize and reassign initial resize to true
     if (!handleInitialResize) {
       handleResize();
@@ -86,24 +86,24 @@ const CustomUpcomingView = (props) => {
     <Paper
       elevation={5}
       sx={{
-        padding: "10px",
+        padding: '10px'
       }}
       className={customClass}
     >
       <Paper
         elevation={5}
         sx={{
-          textAlign: "center",
-          backgroundColor: "#08B2E3",
-          padding: "10px",
-          color: "#fff",
+          textAlign: 'center',
+          backgroundColor: '#08B2E3',
+          padding: '10px',
+          color: '#fff'
         }}
       >
         <h2>Upcoming Events</h2>
       </Paper>
 
-      <Paper sx={{ width: "100%" }}>
-        <TableContainer sx={{ maxHeight: "100%" }}>
+      <Paper sx={{ width: '100%' }}>
+        <TableContainer sx={{ maxHeight: '100%' }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -112,41 +112,35 @@ const CustomUpcomingView = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
+              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           sx={{
-            "& .css-pdct74-MuiTablePagination-selectLabel": { display: "none" },
-            "& .css-194a1fa-MuiSelect-select-MuiInputBase-input.MuiSelect-select":
-              { display: "none" },
-            "& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon ": {
-              display: "none",
+            '& .css-pdct74-MuiTablePagination-selectLabel': { display: 'none' },
+            '& .css-194a1fa-MuiSelect-select-MuiInputBase-input.MuiSelect-select': {
+              display: 'none'
             },
-            overflowX: "hidden",
+            '& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon ': {
+              display: 'none'
+            },
+            overflowX: 'hidden'
           }}
           component="div"
           count={rows.length}

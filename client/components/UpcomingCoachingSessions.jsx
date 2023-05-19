@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   IconButton,
@@ -9,17 +9,17 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TablePagination,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import { textAlign } from "@mui/system";
+  TablePagination
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import { textAlign } from '@mui/system';
 
 // format and populate columns and rows of table
 // create column data to use as map when populating rows
 const columns = [
-  { id: "coach", label: "Coach", minWidth: 170 },
-  { id: "meetingDetails", label: "Meeting Details", minWidth: 100 },
+  { id: 'coach', label: 'Coach', minWidth: 170 },
+  { id: 'meetingDetails', label: 'Meeting Details', minWidth: 100 }
 ];
 
 // function to create row data
@@ -29,8 +29,8 @@ function createData(coach, meetingDetails) {
 
 // row data
 const rows = [
-  createData("Matt Freeman", "Discuss intervals"),
-  createData("Matt Freeman", "SD Event prep"),
+  createData('Matt Freeman', 'Discuss intervals'),
+  createData('Matt Freeman', 'SD Event prep')
 ];
 
 // upcoming coaching sessions component
@@ -56,7 +56,7 @@ const UpcomingCoachingSessions = () => {
   };
 
   React.useEffect(() => {
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     if (!handleInitialResize) {
       handleResize();
       setHandleInitialResize(true);
@@ -71,33 +71,29 @@ const UpcomingCoachingSessions = () => {
     <Paper
       elevation={5}
       sx={{
-        padding: "10px",
+        padding: '10px'
       }}
       className="UpcomingCoachingSessions"
     >
       <Paper
         elevation={5}
         sx={{
-          textAlign: "center",
-          backgroundColor: "#08B2E3",
-          padding: "10px",
-          color: "#fff",
+          textAlign: 'center',
+          backgroundColor: '#08B2E3',
+          padding: '10px',
+          color: '#fff'
         }}
       >
         <h3>Coaching Sessions</h3>
       </Paper>
-      <Paper sx={{ width: "100%" }}>
+      <Paper sx={{ width: '100%' }}>
         <TableContainer
           sx={{
-            maxHeight: "100%",
-            overFlowX: "hidden",
+            maxHeight: '100%',
+            overFlowX: 'hidden'
           }}
         >
-          <Table
-            sx={{ overFlowX: "hidden" }}
-            stickyHeader
-            aria-label="sticky table"
-          >
+          <Table sx={{ overFlowX: 'hidden' }} stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 <TableCell>Coach</TableCell>
@@ -105,39 +101,33 @@ const UpcomingCoachingSessions = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
+              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           sx={{
-            "& .css-pdct74-MuiTablePagination-selectLabel": { display: "none" },
-            "& .css-194a1fa-MuiSelect-select-MuiInputBase-input.MuiSelect-select":
-              { display: "none" },
-            "& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon ": {
-              display: "none",
+            '& .css-pdct74-MuiTablePagination-selectLabel': { display: 'none' },
+            '& .css-194a1fa-MuiSelect-select-MuiInputBase-input.MuiSelect-select': {
+              display: 'none'
             },
-            overflowX: "hidden",
+            '& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon ': {
+              display: 'none'
+            },
+            overflowX: 'hidden'
           }}
           component="div"
           count={rows.length}

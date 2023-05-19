@@ -1,18 +1,18 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable indent */
-import React, { useState, useEffect, useReducer } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useReducer } from 'react';
+import axios from 'axios';
 
 // workouts reducer handling data for workouts display
 const workoutsReducer = (state, action) => {
   switch (action.type) {
-    case "add workout":
+    case 'add workout':
       const newState = state.map((el) => {
         return Object.assign({}, el);
       });
       newState.push(action.payload);
       return newState;
-    case "edit workout":
+    case 'edit workout':
       const updatedState = state.map((el) => {
         if (el.workoutId === action.payload.workoutId) {
           return action.payload;
@@ -21,10 +21,10 @@ const workoutsReducer = (state, action) => {
         }
       });
       return updatedState;
-    case "get workouts":
+    case 'get workouts':
       const initialWorkoutsState = action.payload;
       return initialWorkoutsState;
-    case "delete workout":
+    case 'delete workout':
       const updatedStateWithDelete = [];
       for (const workout of state) {
         if (workout.workoutId !== action.payload) {
@@ -51,20 +51,20 @@ const useDateAndWorkout = (workoutData, date) => {
         // fetch user data to autheticate user
         //
         const response = await axios.get(`workouts?date=${value}`, {
-          signal: signal,
+          signal: signal
         });
         if (response.data) {
-          console.log("response data", response.data);
+          console.log('response data', response.data);
           addWorkouts({
-            type: "get workouts",
-            payload: response.data,
+            type: 'get workouts',
+            payload: response.data
           });
         }
       } catch (err) {
-        if (err.name === "AbortError") {
-          console.log("successfully aborted");
+        if (err.name === 'AbortError') {
+          console.log('successfully aborted');
         } else {
-          console.log("request error occurred", err);
+          console.log('request error occurred', err);
         }
       }
     };

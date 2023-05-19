@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { AthleteHomePageContext } from "./AthleteHomepage.jsx";
+import React, { useState, useContext } from 'react';
+import { AthleteHomePageContext } from './AthleteHomepage.jsx';
 import {
   Button,
   TextField,
@@ -13,9 +13,9 @@ import {
   FormControl,
   NativeSelect,
   Checkbox,
-  FormControlLabel,
-} from "@mui/material";
-import { set } from "date-fns";
+  FormControlLabel
+} from '@mui/material';
+import { set } from 'date-fns';
 
 export default function FormDialog() {
   // props passed down from AthleteHOmePageContext
@@ -29,7 +29,7 @@ export default function FormDialog() {
     handleTextInputChange,
     resetForm,
     handleSubmission,
-    workoutComplete,
+    workoutComplete
   } = useContext(AthleteHomePageContext);
 
   return (
@@ -44,11 +44,11 @@ export default function FormDialog() {
           >
             <Box
               sx={{
-                marginBottom: "1rem",
+                marginBottom: '1rem',
                 minWidth: 120,
-                "& .css-1c2i806-MuiFormLabel-root-MuiInputLabel-root": {
-                  fontSize: "1.3rem",
-                },
+                '& .css-1c2i806-MuiFormLabel-root-MuiInputLabel-root': {
+                  fontSize: '1.3rem'
+                }
               }}
             >
               <FormControl fullWidth>
@@ -58,20 +58,20 @@ export default function FormDialog() {
                 <NativeSelect
                   defaultValue={workoutValue}
                   inputProps={{
-                    name: "age",
-                    id: "uncontrolled-native",
+                    name: 'age',
+                    id: 'uncontrolled-native'
                   }}
                   onChange={(e) =>
                     changeModalState({
-                      type: "setWorkoutType",
-                      payload: e.target.value,
+                      type: 'setWorkoutType',
+                      payload: e.target.value
                     })
                   }
                 >
-                  <option value={"Bike"}>Bike</option>
-                  <option value={"Run"}>Run</option>
-                  <option value={"Swim"}>Swim</option>
-                  <option value={"Weights"}>Weights</option>
+                  <option value={'Bike'}>Bike</option>
+                  <option value={'Run'}>Run</option>
+                  <option value={'Swim'}>Swim</option>
+                  <option value={'Weights'}>Weights</option>
                 </NativeSelect>
               </FormControl>
             </Box>
@@ -83,11 +83,9 @@ export default function FormDialog() {
               label="Enter workout details"
               fullWidth
               variant="standard"
-              sx={{ marginBottom: "1.5rem" }}
+              sx={{ marginBottom: '1.5rem' }}
               value={workoutDetails}
-              onChange={(e) =>
-                handleTextInputChange(e.target.value, "Enter workout details")
-              }
+              onChange={(e) => handleTextInputChange(e.target.value, 'Enter workout details')}
               required={true}
             />
             <DialogContentText>Athlete's Notes</DialogContentText>
@@ -98,21 +96,14 @@ export default function FormDialog() {
               fullWidth
               variant="standard"
               sx={{
-                marginBottom: "1.5rem",
+                marginBottom: '1.5rem'
               }}
               value={athleteNotes}
-              onChange={(e) =>
-                handleTextInputChange(e.target.value, "Enter athlete notes")
-              }
+              onChange={(e) => handleTextInputChange(e.target.value, 'Enter athlete notes')}
               required={true}
             />
             <FormControlLabel
-              control={
-                <Checkbox
-                  onChange={handleTextInputChange}
-                  checked={workoutComplete}
-                />
-              }
+              control={<Checkbox onChange={handleTextInputChange} checked={workoutComplete} />}
               label="Workout Complete"
             />
             <DialogActions>
