@@ -10,31 +10,24 @@ import {
   TablePagination
 } from '@mui/material';
 
-// format and populate columns and rows of table
-// create column data to use as map when populating rows
+// Merge upcomingcoachingsessions and upcomingevents into one component to make code more DRY
+// place holder state - will be replaced with data from database
 const columns = [
   { id: 'coach', label: 'Coach', minWidth: 170 },
   { id: 'meetingDetails', label: 'Meeting Details', minWidth: 100 }
 ];
-
-// function to create row data
-function createData(coach, meetingDetails) {
-  return { coach, meetingDetails };
-}
-
-// row data
 const rows = [
   createData('Matt Freeman', 'Discuss intervals'),
   createData('Matt Freeman', 'SD Event prep')
 ];
 
-// upcoming coaching sessions component
+function createData(coach, meetingDetails) {
+  return { coach, meetingDetails };
+}
+
 const UpcomingCoachingSessions = () => {
-  // state holding page indice
   const [page, setPage] = React.useState(0);
-  // state holding number of rows per page
   const [rowsPerPage, setRowsPerPage] = React.useState(11);
-  // state holding boolean value for whether or not handle resize was called initially
   const [handleInitialResize, setHandleInitialResize] = React.useState(false);
 
   // listen for window resize, adjusting number of rows per page at 1200px
@@ -58,7 +51,6 @@ const UpcomingCoachingSessions = () => {
     }
   }, []);
 
-  // change to new page display when user presses left or right arrow buttons
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

@@ -9,7 +9,6 @@ const SignUpForm = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  // post new user credentials to db
   const handleLocalSignUp = async (e) => {
     try {
       e.preventDefault();
@@ -17,10 +16,8 @@ const SignUpForm = () => {
         username: userName,
         password: password
       });
-      // navigate to login
       navigate('/');
     } catch (err) {
-      // could possibly navigate to error page to try again
       console.log(err);
     }
   };
@@ -66,7 +63,7 @@ const SignUpForm = () => {
         sx={{
           minHeight: 'calc(100vh - 460px)',
           my: 20,
-          mx: 'auto', // margin left & right
+          mx: 'auto',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -100,7 +97,6 @@ const SignUpForm = () => {
               />
               <TextField
                 margin="dense"
-                // id="password"
                 label="Enter password"
                 fullWidth
                 sx={{ marginBottom: '1rem' }}

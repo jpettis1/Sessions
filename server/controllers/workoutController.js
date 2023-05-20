@@ -1,16 +1,13 @@
 const db = require('../models/sessionModels');
 
-// function for generating monthly workout summary
 const retrieveSummaryInfo = async (startDate, endDate) => {
   const values = [startDate, endDate];
   const queryStr = 'SELECT workout_status FROM workouts WHERE workout_date BETWEEN $1 AND $2';
-  // query db to get completed workouts and non-completed workouts
   const data = await db.query(queryStr, values);
   return data.rows;
 };
 
 const calculateSummary = (data) => {
-  // calculate complete and incomplete summary status
   let complete = 0;
   let incomplete = 0;
   for (const workout of data) {
@@ -23,10 +20,8 @@ const calculateSummary = (data) => {
   return [complete, incomplete];
 };
 
-// declare const set to object literal - hold methods on the workoutController object
 const workoutController = {};
 
-// declare a method get workout to query workouts for specific user
 workoutController.getWorkouts = async (req, res, next) => {
   try {
     const values = [req.user._id, req.query.date];
@@ -34,7 +29,6 @@ workoutController.getWorkouts = async (req, res, next) => {
     const queryStr =
       'SELECT workout_type, workout_details, workouts_id, athlete_notes, workout_status FROM workouts WHERE user_id = $1 AND workout_date = $2';
 
-    // query db to insert new workout values
     const data = await db.query(queryStr, values);
     const populatedWorkouts = data.rows.map((el) => {
       return {
@@ -59,10 +53,9 @@ workoutController.getWorkouts = async (req, res, next) => {
 workoutController.getMonthlySummary = async (req, res, next) => {
   try {
     const { startDate, endDate } = req.query.dateRange;
-    // generate monthly summary
     const data = await retrieveSummaryInfo(startDate, endDate);
-    // compile workout summary data
     const summaryResult = calculateSummary(data);
+
     if (summaryResult[0] !== 0 || summaryResult[1] !== 0) {
       res.locals.workoutStatus = [
         { argument: 1, value: 0 },
@@ -84,7 +77,6 @@ workoutController.getMonthlySummary = async (req, res, next) => {
 
 workoutController.getYearlySummary = async (req, res, next) => {
   try {
-    // generate start and end date ranges for all months of the year
     const year = new Date().getFullYear();
     let month = '01';
     let nextMonth;
@@ -139,7 +131,6 @@ workoutController.getYearlySummary = async (req, res, next) => {
   }
 };
 
-// declare a method add workout to save new workouts to the db
 workoutController.addWorkout = async (req, res, next) => {
   try {
     console.log('this is req user', req.user);
@@ -157,10 +148,8 @@ workoutController.addWorkout = async (req, res, next) => {
     const queryStr =
       'INSERT INTO workouts (workout_type, workout_details, user_id, athlete_notes, workout_status, workout_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING workout_type, workout_details, workouts_id, athlete_notes, workout_status';
 
-    // query db to insert new workout values
     const data = await db.query(queryStr, values);
 
-    // destructure returned data from db and input into return workouts obj
     const { workout_type, workout_details, workouts_id, athlete_notes, workout_status } =
       data.rows[0];
     res.locals.workouts = {
@@ -179,7 +168,6 @@ workoutController.addWorkout = async (req, res, next) => {
   }
 };
 
-// declare a method update workout to save new workouts to the db
 workoutController.updateWorkout = async (req, res, next) => {
   try {
     const { workoutValue, workoutDetails, workoutStatus, athleteNotes } = req.body;
@@ -188,10 +176,8 @@ workoutController.updateWorkout = async (req, res, next) => {
     const queryStr =
       'UPDATE workouts SET workout_type = $1, workout_details = $2, athlete_notes = $3, workout_status = $4 WHERE workouts_id = $5 RETURNING workout_type, workout_details, workouts_id, athlete_notes, workout_status';
 
-    // query db to insert new workout values
     const data = await db.query(queryStr, values);
 
-    // destructure returned data from db and input into return workouts obj
     const { workout_type, workout_details, workouts_id, athlete_notes, workout_status } =
       data.rows[0];
 
@@ -212,13 +198,11 @@ workoutController.updateWorkout = async (req, res, next) => {
   }
 };
 
-// declare a method add workout to save new workouts to the db
 workoutController.deleteWorkout = async (req, res, next) => {
   try {
     const values = [req.query.id];
     const queryStr = 'DELETE FROM workouts WHERE workouts_id = $1 RETURNING workouts_id';
 
-    // query db to insert new workout values
     const data = await db.query(queryStr, values);
     console.log(data.rows);
     res.locals.workoutId = data.rows[0].workouts_id.toString();

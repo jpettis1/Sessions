@@ -23,12 +23,11 @@ const useRows = (rows) => {
 
     window.addEventListener('resize', handleResize);
 
-    // conditional, if initial resize has not occured upon load, handleResize and reassign initial resize to true
     if (!handleInitialResize) {
       handleResize();
       setHandleInitialResize(true);
     }
-    // run clean up func to remove event and clear memory
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };

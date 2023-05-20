@@ -5,39 +5,37 @@ import AthleteHomepage from './AthleteHomepage.jsx';
 import FooterNavContent from './global/FooterNavContent.jsx';
 import LoginPage from './LoginPage.jsx';
 import SignUpForm from './SignUp.jsx';
-// Import scss file
 import '../stylesheets/styles.scss';
 import { Box } from '@mui/material';
 
-// create context to give child props access to values
 export const AppContext = createContext(null);
 
 const App = () => {
   const [user, setUser] = useState(false);
 
   useEffect(() => {
-    try {
-      const controller = new AbortController();
-      const signal = controller.signal;
-      const getUser = async () => {
-        // fetch user data to autheticate user
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const getUser = async () => {
+      try {
         const response = await axios.get('login/auth/google/success', {
           signal: signal
         });
         if (response.data.user) {
           setUser(response.data.user);
         }
-      };
-      getUser();
-    } catch (err) {
-      if (err.name === 'AbortError') {
-        console.log('successfully aborted');
-      } else {
-        console.log('request error occurred', err);
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          console.log('successfully aborted');
+        } else {
+          console.log('request error occurred', err);
+        }
       }
-    }
+    };
+    getUser();
+
     return () => {
-      // cancel request before component unmounts
       controller.abort();
     };
   }, []);

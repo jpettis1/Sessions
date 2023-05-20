@@ -1,8 +1,6 @@
 const express = require('express');
-// require middleware controllers
 const router = express.Router();
 
-// logout user
 router.get('/', (req, res, next) => {
   req.logout((err) => {
     if (err) {

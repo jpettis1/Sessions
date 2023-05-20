@@ -19,7 +19,6 @@ const data = [
 ];
 
 const BarChart = () => {
-  // props passed down from AthleteHOmePageContext
   const { yearlySummary } = useContext(AthleteHomePageContext);
   return (
     <Paper
@@ -30,7 +29,6 @@ const BarChart = () => {
         padding: '15px'
       }}>
       <h3>Yearly Summary</h3>
-
       <Chart height={300} data={yearlySummary}>
         <ArgumentAxis />
         <ValueAxis />

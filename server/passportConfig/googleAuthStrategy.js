@@ -2,7 +2,6 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const db = require('../models/sessionModels');
 
-// using google strategy to authenticate clients
 passport.use(
   new GoogleStrategy(
     {
@@ -34,19 +33,15 @@ passport.use(
     }
   )
 );
-// takes piece of info from record and pass on to put in cookie
+
 passport.serializeUser((user, done) => {
-  console.log('serialize user');
-  // id will be associated with the user created in the database
   done(null, user._id);
 });
 
-// when cookie comes back, recieve id and deserialize so we can grab user from id
 passport.deserializeUser(async (id, done) => {
   console.log('deserialize user');
   const values = [id];
   const queryStr = 'SELECT _id, email, firstname, lastname, picture FROM users WHERE _id = $1';
   const currUser = await db.query(queryStr, values);
-  // this will attach the user property to the req object so we can access inside a route handler
   done(null, currUser.rows[0]);
 });

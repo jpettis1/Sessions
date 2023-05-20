@@ -15,7 +15,6 @@ import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
 const Calendar = () => {
   const { value, handleDateChange, changeModalState } = useContext(AthleteHomePageContext);
-
   const [isOpen, setIsOpen] = useState(false);
   const [changeIcon, setChangeIcon] = useState(false);
 
@@ -73,7 +72,6 @@ const Calendar = () => {
       }}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <StaticDatePicker
-          // orientation="landscape"
           openTo="day"
           value={value}
           onChange={(e) => {
@@ -160,7 +158,6 @@ const Calendar = () => {
           {!changeIcon ? <AddIcon sx={{ color: '#fff' }} /> : <EditIcon />}
         </Fab>
       </ButtonGroup>
-      {/* </LocalizationProvider> */}
     </Paper>
   );
 };

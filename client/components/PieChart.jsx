@@ -4,7 +4,6 @@ import { Paper, Box } from '@mui/material';
 import { Chart, PieSeries } from '@devexpress/dx-react-chart-material-ui';
 
 const PieChart = () => {
-  // props passed down from AthleteHOmePageContext
   const { workoutStatus } = useContext(AthleteHomePageContext);
 
   return (
@@ -16,7 +15,6 @@ const PieChart = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         padding: '15px'
-        //   alignItems: "center",
       }}>
       <h3>Monthly Summary</h3>
       {workoutStatus.length > 1 ? (
@@ -26,7 +24,6 @@ const PieChart = () => {
       ) : (
         <h3 className="no-workout-notification">No workouts posted for this month</h3>
       )}
-
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <h4 className="pie-chart-key">
           Complete: <div className="workouts-completed"></div>

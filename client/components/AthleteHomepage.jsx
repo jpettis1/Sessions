@@ -7,15 +7,13 @@ import useWorkoutStatus from '../hooks/useWorkoutStatus.js';
 import Calendar from './Calendar.jsx';
 import WorkoutDetailsTile from './WorkoutDetailsTile.jsx';
 import UpcomingCoachingSessions from './UpcomingCoachingSessions.jsx';
-// import CustomUpcomingView from "./customcomponents/CustomBoxComponent.jsx";
 import FormDialog from './NewWorkoutFormDialog.jsx';
 import PieChart from './PieChart.jsx';
 import BarChart from './BarChart.jsx';
 import { Box } from '@mui/material';
 
-// create context to give child props access to values
 export const AthleteHomePageContext = createContext(null);
-// reducer for handling modal state changes
+
 const modalStateReducer = (state, action) => {
   switch (action.type) {
     case 'changeModalVisibility':
@@ -36,23 +34,18 @@ const modalStateReducer = (state, action) => {
 };
 
 const AthleteHomepage = () => {
-  // change modal state, workout value, and form methods
   const [initialModalState, changeModalState] = useReducer(modalStateReducer, {
     open: false,
     workoutValue: 'Bike',
     method: 'POST'
   });
-  // workout id for querying update requests
   const [workoutId, setWorkoutId] = useState('');
-  // state for form fields
   const [workoutDetails, setWorkoutDetails] = useState('');
   const [athleteNotes, setAthleteNotes] = useState('');
+  const [coachNotes, setCoachNotes] = useState('');
   const [workoutComplete, setWorkoutComplete] = useState(false);
-  // custom hook for handling workout and date status and fetching of data
   const { value, setValue, workouts, addWorkouts } = useDateAndWorkout([], new Date());
-  // workoutStatus state for monthly summary and fetch request to back end to retrieve initial data
   const { workoutStatus, setWorkoutStatus, yearlySummary, setYearlySummary } = useWorkoutStatus();
-  // deconstruct values from initialModalState to pass into context provider
   const { open, workoutValue, method } = initialModalState;
 
   // FORM METHODS
@@ -136,36 +129,26 @@ const AthleteHomepage = () => {
     };
     if (deleteRequest) {
       const res = await axios.delete(`/workouts?id=${workoutId}`);
-      // reset input form
       resetForm();
-      // delete existing workout in state
       addWorkouts({ type: 'delete workout', payload: res.data });
     } else if (method === 'PUT') {
-      // make a put request to the db to submit new workout details
       const res = await axios.put(`/workouts?id=${workoutId}`, data);
-      // reset input form
       resetForm();
-      // edit existing workout in state
       addWorkouts({ type: 'edit workout', payload: res.data });
     } else {
-      // make a put request to the db to submit new workout details
       const res = await axios.post('/workouts', data);
-      // reset input form
       resetForm();
-      // add new workout to state obj
       addWorkouts({ type: 'add workout', payload: res.data });
     }
     fetchSummaryData(value);
   };
 
-  // handle date change on click within calendar component
   const handleDateChange = async (newValue) => {
     fetchSummaryData(newValue);
     setValue(newValue);
   };
 
   return (
-    // Provide child components with parent state
     <AthleteHomePageContext.Provider
       value={{
         value,
@@ -198,9 +181,7 @@ const AthleteHomepage = () => {
           <Box className="GridContainer">
             <UpcomingEventsView />
             <Calendar />
-
             <WorkoutDetailsTile />
-
             <UpcomingCoachingSessions />
             <FormDialog />
             <PieChart />
@@ -213,5 +194,3 @@ const AthleteHomepage = () => {
 };
 
 export default AthleteHomepage;
-
-console.log(AthleteHomepage.displayName);

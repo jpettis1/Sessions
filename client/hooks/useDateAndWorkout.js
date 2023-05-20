@@ -68,9 +68,10 @@ const useDateAndWorkout = (workoutData, date) => {
         }
       }
     };
+
     getWorkoutData();
+
     return () => {
-      //   cancel request before component unmounts
       controller.abort();
     };
   }, [value]);

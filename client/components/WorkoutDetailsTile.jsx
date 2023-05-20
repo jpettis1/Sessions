@@ -21,7 +21,7 @@ const columns = [
 ];
 
 const WorkoutDetailsTile = () => {
-  const { value, modifiedDate, changeModalState, workouts, editWorkoutDetails } =
+  const { value, changeModalState, workouts, editWorkoutDetails } =
     useContext(AthleteHomePageContext);
 
   const [page, setPage] = useState(0);

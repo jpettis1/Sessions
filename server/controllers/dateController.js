@@ -3,7 +3,6 @@ const dateController = {};
 dateController.formatDate = (req, res, next) => {
   try {
     let modifiedDate;
-    // convert back to date obj
     if (req.query.date) {
       modifiedDate = new Date(req.query.date);
     } else {

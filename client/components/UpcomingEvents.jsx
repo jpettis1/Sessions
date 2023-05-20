@@ -10,19 +10,8 @@ import {
   TableRow,
   TablePagination
 } from '@mui/material';
-// format and populate columns and rows of table
-// create column data to use as map when populating rows
-const columns = [
-  { id: 'event', label: 'Event', minWidth: 170 },
-  { id: 'eventDetails', label: 'Event Details', minWidth: 100 }
-];
 
-// function to create row data
-function createData(event, eventDetails) {
-  return { event, eventDetails };
-}
-
-// row data
+// place holder state - will be replaced with data from database
 const rows = [
   createData('San Diego', 'Century Ride'),
   createData('San Diego', 'Century Ride'),
@@ -40,6 +29,15 @@ const rows = [
   createData('San Diego', 'Century Ride'),
   createData('San Diego', 'Century Ride')
 ];
+
+const columns = [
+  { id: 'event', label: 'Event', minWidth: 170 },
+  { id: 'eventDetails', label: 'Event Details', minWidth: 100 }
+];
+
+function createData(event, eventDetails) {
+  return { event, eventDetails };
+}
 
 // upcoming events component
 const UpcomingEventsView = () => {
