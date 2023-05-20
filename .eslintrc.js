@@ -10,7 +10,12 @@ module.exports = {
       version: 'detect'
     }
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended',
+    'plugin:cypress/recommended'
+  ],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
