@@ -2,7 +2,8 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
+    jest: true
   },
   root: true,
   settings: {
@@ -10,12 +11,7 @@ module.exports = {
       version: 'detect'
     }
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:prettier/recommended',
-    'plugin:cypress/recommended'
-  ],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
