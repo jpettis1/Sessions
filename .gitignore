@@ -1,6 +1,6 @@
-npm-debug.log*
 node_modules/
-dist/bundle.js
-package-lock.json
-.envclie
+dist/
 .env
+.DS_Store
+coverage/
+.vscode/
